@@ -1,0 +1,18 @@
+2. Reading in_det.dat: could not convert string to float: a
+
+3. Reading in_det.dat: need more than 1 value to unpack
+Setting determinant of C to default value = 1
+Reading in_det.dat, got ValueError: could not convert string to float: 
+Reading in_det.dat, got ValueError: need more than 1 value to unpack
+Setting determinant of C to default value = 1
+Reading in_det.dat, got ValueError: could not convert string to float: a
+
+Reading in_det.dat, got ValueError: need more than 1 value to unpack
+Setting determinant of C to default value = 1
+Reading in_det.dat, got ValueError: could not convert string to float: 
+Reading in_det.dat, got ValueError: need more than 1 value to unpack
+Setting determinant of C to default value = 1
+Reading in_det.dat, got ValueError: could not convert string to float: a
+
+Reading in_det.dat, got ValueError: need more than 1 value to unpack
+Setting determinant of C to default value = 1

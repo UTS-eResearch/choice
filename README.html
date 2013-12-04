@@ -1,0 +1,439 @@
+<html>
+<head>
+<title>Discrete Choice Experiments</title>
+<!--
+<link rel="stylesheet" type="text/css" href="static/styles.css" />
+-->
+</head>
+<body bgcolor='lightyellow'>
+<h1>Discrete Choice Experiments</h1>
+
+<p>Version of this doc: 13 November 2013 </p>
+
+<pre>
+<a href="#todo">TODO</a>
+<a href="#description">Description</a>
+<a href="#required">Software Required</a>
+<a href="#release">Release at Nectar</a>
+<a href="#input_validation">Input Validation</a> 
+<a href="#tests">Running Regression Tests</a>
+<a href="#windows">Running under Windows </a>
+<a href="#linux">Running under Linux</a>
+<a href="#programs">Two Programs - choice.py and process_choices.py</a>
+<a href="#details">Details</a>
+<a href="#code_notes">Code Notes</a>
+<a href="#problems">Problems Encountered</a> 
+<a href="#refs">References</a>
+</pre>
+
+<a name="todo"/><h2>TODO</h2>
+
+http://stackoverflow.com/questions/1191374/subprocess-with-timeout
+
+http://stackoverflow.com/questions/3733270/python-subprocess-timeout
+
+http://howto.pui.ch/post/37471155682/set-timeout-for-a-shell-command-in-python
+See 
+p = process.ProcessOpen("notepad.exe")
+p.wait(timeout=5)
+
+<pre>
+Sumdiffs[q] = power(choicesetsize, 2)/4
+NameError: global name 'power' is not defined
+choice/$ pydoc power
+no Python documentation found for 'power'
+
+Changed all instances of power() (it was undefined) to inbuilt pow(), 
+            [9 substitution 7 lines.
+</pre>
+
+<hr>
+
+<pre>
+how-to-gracefully-restart-django-running-fcgi-behind-nginx
+
+The solution seems to be much simpler. Django fcgi server uses flup, which
+handles the HUP signal the proper way: it shuts down, gracefully. So all you
+have to do is to:
+
+* send the HUP signal to the fcgi server (the pidfile= argument of runserver
+  will come in handy)
+* wait a bit (flup allows children processes 10 seconds, so wait a couple more;
+  15 looks like a good number)
+* sent the KILL signal to the fcgi server, just in case something blocked it
+* start the server again
+
+That's it.
+
+This works really well if you set up your django fcgi server under upstart.
+initctl reload <job> will send the HUP, and the respawn directive in your job
+definition will handle the restart. No muss, no fuss. –  David Eyk Oct 11 '10
+at 16:44 
+</pre>
+
+<a name="description"/><h2>Description</h2>
+
+This describes the python scripts that run the web based 
+&quot;Discrete Choice Experiments&quot;. 
+This was written for for Deborah Street and Leonie Burgess. 
+Mike Lake wrote the choice.py and Emily Bird (from Maths) wrote the main functions in 
+process_choices.py.  
+
+
+<a name="required"/><h2>Software Required</h2>
+
+<p>This is installed onto a "Fedora release 19".
+The following software is required:</p>
+
+<pre>
+Fedora Package    Provides
+--------------    --------
+python            provides Python 2.7.5
+numpy             provides numerical array maths
+python-bottle     provides micro web framework
+python-cheetah    provides templating system
+python-flup       provides fast CGI server
+nginx             provides web server
+
+sympy-sympy-0.7.2.tar provides symbolic maths for python from http://sympy.org
+</pre>
+
+<a name="release"/><h2>Release at Nectar</h2>
+
+<pre>
+1. Update version numbers for:
+   choice.py               version = '2013.10.23' 
+   choice_common.py
+   process_choices.py
+
+   The version number for all programs should all be set to the same date.
+
+2. Turn off TEST in choice.py
+
+   At the top of the program set 
+   "TEST = False"
+
+3. Rsync to Nectar
+   This will first of all tarball the files and send the tarball up.
+   $ release_to_nectar.sh 
+
+4. Login to Nectar 
+   ssh -i ~/.ssh/keys/mikes_nectar ec2-user@115.146.85.135
+  
+   Your home directory will be: /home/ec2-user/
+   
+   tar xvf choice_release_2013.10.23.tar
+   This will create public_html_2013.10.23/
+   rm choice_release_2013.10.23.tar
+   rm public_html                       <-- this is a symlink
+   ln -s public_html_2013.10.23 public_html
+
+   cd public_html
+   sudo service nginx restart
+   $ nohup python ./choice.py &amp;   
+   nohup: ignoring input and appending output to "nohup.out"
+   $
+   
+5. Check <a href="http://115.146.85.135">http://115.146.85.135</a> 
+   It should show the correct version number at the bottom left of the page. 
+</pre>
+
+
+<a name="programs"/><h2>Two Programs - choice.py and process_choices.py</h2>
+<a name="input_validation"/><h2>Input Validation</h2> 
+
+<p>
+inputs_validation() <br>
+&nbsp;&nbsp; Check radio buttons
+&nbsp;&nbsp; 
+</p>
+
+<p>
+Note: To turn off the javascript validation edit <tt>views/head.tpl</tt> and rename the 
+<tt>src="/static/validate.js"</tt> to something &quot;wrong&quot; so it won't load.
+</p>
+
+<pre>
++--- Users Web Browser ---+
+|  Javascript validation  | 
+|  for basic checking     |
++-------------------------+
+              |
+              |
++-- choice.py: web application --+
+| gets inputs from web browser   |  
+| inputs_validation()            |      +---- process_choices.py ---+ 
+|                                |      | get_expected_io()         |
+| write_input_files() ----------------> | read_input_files()        |  
+|                                |      |   ... processing ...      |
+|                                |      |   ... processing ...      |
+| read_output_files() <---------------- | write_output_files()      |
+|                                |      +---------------------------+
+| creates HTML pages with data   | 
++--------------------------------+
+              |
+              |
++--- Users Web Browser ---+
+|         results         |
++-------------------------+
+
+</pre>
+
+choice.py
+<pre>
+    reads form input values (as dict)  
+    writes input values to files in a temp dir
+    runs process_choices.py
+    reads output values from these files
+    writes values to web page
+</pre>
+
+process_choices.py
+<pre>
+    reads input values from files in temp dir
+    processes them
+    writes output values to files in temp dir
+</pre>
+
+
+<pre>
+Directories:
+    static  &nbsp;-- CSS, images, JS   
+    views   &nbsp;-- templates
+</pre>
+
+<pre>
+Summary of Logic
+
+input text name=factors size=1 maxlength=2      Number of attributes (k)
+input text name=levels size=20 maxlength=60     Levels for each attribute
+input text name=msize size=1 maxlength=2        Number of options in each choice set (m)
+
+input radio name=corc value=construct 
+input radio name=corc value=check 
+
+input radio name=effect value=main checked=checked
+input radio name=effect value=mplusall
+input radio name=effect value=mplussome
+
+input text name=det size=20 maxlength=40
+input text name=2fis size=30 maxlength=100
+
+input textarea name=tmts    Enter the treatment combinations in the<br/> starting design
+input textarea name=gens    Enter the sets of generators to construct<br/> the choice set:
+or
+input textarea name=chsets  Enter the Choice Sets to be checked:
+
+input [ submit ]
+input [ reset ]
+</pre>
+
+
+<a name="tests"/><h2>Running Regression Tests</h2>
+
+<pre>
+./regression_test_all.sh
+</pre>
+
+
+<a name="windows"/><h2>Running under Windows </h2>
+
+<p>The web server and its app (i.e. choice.py) can't be run under Windows but the 
+main program process_choices.py can be run under Windows. This means that Emily Bird 
+can run and debug her code on Windows. For details on this see below.</p>
+
+<p>Copy all the files over to the Windows box. <br>
+There needs to be the directory: test <br>
+There needs to be the files: process_choices.py choice_common.py
+</p>
+
+<pre>
+C:\choice_emily&gt; C:\Python27\python.exe process_choices.py test\check_main_1 check main
+C:\choice_emily&gt; 
+</pre>
+
+<p>Note: Regression tests also can't be run under Windows.</p>
+
+<a name="linux"/><h2>Running under Linux</h2>
+
+<h3>Starting the Bottle App </h3>
+
+<pre>
+$ nohup python ./choice.py &   &lt;-- Runs COMMAND, ignoring hangup signals.
+</pre>
+
+<pre>
+[ec2-user@choice2 ~]$ ps ax | grep choice
+     2:11 avahi-daemon: running [choice2.local]
+     1:31 python ./choice.py
+     3:14 /usr/bin/python ./choice.py
+[ec2-user@choice2 ~]$ 
+</pre>
+
+<h3>Running under Bottle's inbuilt web server</h3>
+
+<p><i>This is just for testing - not production!</i></p>
+
+<p>The script choice.py needs to have this:</p>
+<pre>
+  run(host='localhost', port=8080, reloader=True)
+</pre>
+
+<p>Start the script:</p>
+<pre>
+  choice/$ ./choice.py 
+  Bottle server starting up (using WSGIRefServer())...
+  Listening on http://localhost:8080/
+  Hit Ctrl-C to quit.
+</pre>
+
+Go to: <a href="http://localhost/choice">http://localhost/choice</a>
+
+<p>Note: The port=8080 is superfluous as the default port is actually 8080. 
+If you try to run  on port 80 you will get a 
+"socket.error: [Errno 13] Permission denied error" as you don't have permission 
+to bind that that port - even if apache or nginx are not running. 
+</p>
+
+<h3>Running under Nginx and Fast CGI</h3>
+
+<p><i>This is how to run for production.</i></p>
+
+<p>The script choice.py needs to have this:</p>
+<pre>
+  run(server=FlupFCGIServer, port=9000, host='localhost', reloader=True)
+</pre>
+
+<p>Start the script:</p>
+<pre>
+  choice/$ ./choice.py 
+  Bottle server starting up (using FlupFCGIServer())...
+  Listening on http://127.0.0.1:9000/
+  Hit Ctrl-C to quit.
+</pre>
+
+<p>Go to: <a href="http://localhost/choice/">http://localhost/choice/</a>
+</p>
+
+<p>If you get this web page below then you forgot to start ./choice.py</p>
+<pre>
+  Possibly Busy
+  The page you are looking for is temporarily unavailable. Please try again later. 
+</pre>
+
+Note: For Mikes laptop only make sure nginx is running and not apache: 
+<pre>
+  $ sudo service httpd stop
+  Redirecting to /bin/systemctl stop  httpd.service
+  choice/$ sudo service nginx start
+  Redirecting to /bin/systemctl start  nginx.service
+  $ 
+</pre>
+
+
+<a name="code_notes"/><h2>Code Notes</h2>
+
+Example of javascript tooltip: 
+<a href="javascript:popUp('/choice/help#effect')">Which effects do you want to estimate?</a>
+
+<pre>
+subprocess.call(): 
+
+See pydoc subprocess for "call" details. 
+This returns 0 if all is OK.
+To capture standard error in the result use stderr=STDOUT.
+The exception object will have one extra attribute called
+'child_traceback', which is a string containing traceback information
+from the childs point of view.
+See also "check_call"
+
+(['./process_choices.py', 'construct', 'main'], stderr=subprocess.STDOUT)
+return_value = subprocess.call(['./process_choices.py', tempdir, 'construct', 'main'] )
+</pre>
+
+
+<a name="problems"/><h2>Problems Encountered</h2> 
+
+<h3>nginx/python Run Problems</h3> 
+
+<p>This is what you should have:</p>
+
+<pre>
+[ec2-user@choice2 public_html]$ ps ax | grep choice
+ 7235 pts/0    S      0:00 python ./choice.py
+ 7236 pts/0    Sl     0:00 /usr/bin/python ./choice.py
+[ec2-user@choice2 public_html]$ 
+</pre>
+
+
+<p>If you get this error on Nectar: <tt>Error: 502 Bad Gateway</tt> then 
+chances are that nginx is runing but the <tt>choice.py</tt> app is not.
+</p>
+ 
+<pre>
+$ python ./choice.py   <-- no &amp; to see what the problem is.
+</pre>
+
+<h3>Sympy Error</h3>
+
+<p>Note: Get the sympy version with "import sympy; sympy.__version__"</p>
+<pre>            Python    Sympy    Numpy
+Laptop      2.7.3     0.7.1    1.6.2    
+Windows     2.7.3     0.7.2    1.7.1
+Nectar      2.7.5     0.7.3    1.7.1 &lt;-- has a sympy problem 
+Nectar      2.7.5     0.7.2    1.7.1 &lt;-- works OK
+LiveShell   2.7.5     0.7.3    1.6.1
+</pre>
+
+<p>On laptop running sympy 0.7.1</p>
+<pre>
+mlake$ python
+Python 2.7.3 (default, Jul 24 2012, 10:05:38) 
+[GCC 4.7.0 20120507 (Red Hat 4.7.0-5)] on linux2
+>>> import sympy
+>>> m=[1,2]
+>>> sympy.Matrix(m)
+[1]
+[2]
+>>> 
+</pre>
+
+<p>On Nectar server running sympy 0.7.3</p>
+<pre>
+[ec2-user@choice2$ python
+Python 2.7.5 (default, Aug 22 2013, 09:31:58) 
+[GCC 4.8.1 20130603 (Red Hat 4.8.1-1)] on linux2
+>>> import sympy
+>>> m=[1,2]
+>>> sympy.Matrix(m)
+Matrix([
+[1],
+[2]])
+>>> 
+</pre>
+
+<p><b>Solved:</b> Removed the yum package sympy (0.7.3) and installed sympy 0.7.2 from 
+the tarball source package sympy-sympy-0.7.2.tar. The problem 
+has now gone. 
+</p>
+
+<a name="refs"/><h2>References</h2>
+
+<pre>
+<a href="http://linuxgazette.net/115/orr.html">Good overview</a>
+<a href="http://wiki.nginx.org/PythonFlup">PythonFlup</a>
+<a href="http://wiki.nginx.org/HttpUwsgiModule">HttpUwsgiModule</a>
+<a href="http://fclef.wordpress.com/2013/01/12/bottle-virtualenv-uwsgi-nginx-installation-on-ubuntu-12-04-1-lts">bottle-virtualenv-uwsgi-nginx-installation-on-ubuntu-12-04-1-lts/</a>
+<a href="http://stackoverflow.com/questions/361855/how-to-gracefully-restart-django-running-fcgi-behind-nginx">how-to-gracefully-restart-django-running-fcgi-behind-nginx</a>
+<a href="http://helpful.knobs-dials.com/index.php/Mod_wsgi_notes">Mod_wsgi_notes</a>
+<a href="http://michael.lustfield.net/nginx/bottle-uwsgi-nginx-quickstart">bottle-uwsgi-nginx-quickstart</a>
+<a href="http://articles.slicehost.com/2010/8/27/customizing-nginx-web-logs">customizing-nginx-web-logs</a>
+<a href="http://stackoverflow.com/questions/7048057/running-python-through-fastcgi-for-nginx">running-python-through-fastcgi-for-nginx</a>
+<a href="http://scardig.com/articoli/2010/02/03/Webpy-deployment-through-Nginx-Fastcgi-Spawn-fcgi-and-Flup.html">Webpy-deployment-through-Nginx-Fastcgi-Spawn-fcgi-and-Flup</a>
+</pre>
+
+
+
+</body>
+</html>
+
