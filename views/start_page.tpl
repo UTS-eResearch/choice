@@ -17,7 +17,10 @@ following citation: <br>
 <input type="button" value="Construct Example 3" onclick="example_3();"/> &nbsp; 
 <input type="button" value="Check Example 4"     onclick="example_4();"/> &nbsp; 
 <input type="button" value="Clear" onclick="allclear();" /> &nbsp; 
-<a href="/choice/help" target="_blank">Detailed Help Page</a>
+<a href="/choice/help" target="_blank">Detailed Help Page</a> 
+<br>
+<input type="button" value="Test 1" onclick="test_1();"/> &nbsp; 
+
 </p>
 <p>
 <input type="submit"/> 
@@ -31,22 +34,22 @@ following citation: <br>
 <tr>
     <td align="right">Number of attributes (k): </td>
     <td><input type="text" name="factors" size="1" maxlength="2" value="4"/></td>
-    <td>1 &lt;<i>k</i> &le; 20 &nbsp; 
-    <a href="#" title="Enter the number of attributes (k) in the choice experiment. This number must be an integer in the range 1 < k ≤ 20." onclick="return false;">?</a>
+    <td>1 &lt;<i>k</i> &le; 20 
+    <a class="help" href="#" title="Enter the number of attributes (k) in the choice experiment. This number must be an integer in the range 1 < k ≤ 20." onclick="return false;">?</a>
     </td>
 </tr>
 <tr>
 	<td align="right">Levels for each attribute: </td>
 	<td><input type="text" name="levels" size="20" maxlength="60"/ value="4 3 3 3"></td>
-	<td>1 x <i>k</i> vector of space separated <br/>integer values in range 2 to 20 &nbsp;  
-	<a href="#" title="For each of the attributes enter the number of levels (lq, q=1,...,k) in the choice experiment, separating the numbers with spaces. Each of the number of levels must be an integer in the range 2 to 20. For example, if there are three attributes (k = 3), two with two levels (l1 = l2 = 2) and one with three levels (l3 = 3), then enter the levels as 2 2 3.">?</a> </td>
+	<td>1 x <i>k</i> vector of space separated <br/>integer values in range 2 to 20 
+	<a class="help" href="#" title="For each of the attributes enter the number of levels (lq, q=1,...,k) in the choice experiment, separating the numbers with spaces. Each of the number of levels must be an integer in the range 2 to 20. For example, if there are three attributes (k = 3), two with two levels (l1 = l2 = 2) and one with three levels (l3 = 3), then enter the levels as 2 2 3.">?</a> </td>
 </tr>
 <tr>
 	<td align="right">Number of options in each choice set (m): </td>
 	<td><input type="text" name="msize" size="1" maxlength="2" value="2" />
 	</td>
-	<td>1 &lt; <i>m</i> &lt; 20 &nbsp;
-	<a href="#" title="Enter the number of options in each choice set (m). This number must be an integer in the range 2 to 20.">?</a></td>
+	<td>1 &lt; <i>m</i> &lt; 20  
+	<a class="help" href="#" title="Enter the number of options in each choice set (m). This number must be an integer in the range 2 to 20.">?</a></td>
 </tr>
 </table>
 </div> <!-- end id "basedata" -->
