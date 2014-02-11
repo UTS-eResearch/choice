@@ -2,24 +2,51 @@
 
 /* div { border:1px solid red;} */
 
-
-body { background-color: powderblue; }
-
-div.left { float:left; width:221px; }
-div.middle { margin-left:221px; margin-right:187px; text-align:center; }
-div.right { float:right; width:187px;}
-
-div.clear_both { clear:both; }
+/* Changed from powderblue to lightyellow */
+body { background-color: lightyellow; }
 
 h1 { font-family:Arial,Helvetica,sans-serif; font-size:160%; font-weight:bold; }
 h2 { font-family:Arial,Helvetica,sans-serif; font-size:120%; font-weight:bold; }
+/* h3 is only used in the README.html */
+h3 { font-family:serif; font-size:110%; font-weight:bold; text-indent:1.2ex;}
 
+/* This removed the space abobe the H2 when inside these divs. */
+div.left h2 { margin-top:0pt; }
+
+.container { 
+    margin:0; 
+}
+
+.left, .right { 
+    /* border:1px solid red; */
+    float:left; 
+}
+
+.left { 
+    margin-right:4ex;
+}
+
+.right { 
+    float:right; 
+}
+
+.clear_both { clear:both; }
+
+/* This formats the ? popup help links. */
+a.help { padding-left:2ex; padding-right:2ex; }
+
+/* These are just for the divs within top temoplate */
+div.top_left { float:left; width:221px; }
+div.top_middle { margin-left:221px; margin-right:187px; text-align:center; }
+div.top_right { float:right; width:187px;}
+
+/* Results are matrices and are displayed as monospace. */
 div.results { font-family:"Courier New", monoscape; white-space:pre; }
  
 input.invalid { background-color: gold; }
 textarea.invalid { background-color: gold; }
 
-pre {font-size:140%;}
+pre {font-size:120%;}
 
 table { padding:5px; }
 table td { vertical-align:top; }
