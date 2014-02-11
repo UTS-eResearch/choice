@@ -31,23 +31,25 @@ Versions:
             form elements. Added check that twofis values are in range 1,k.
             Release to Nectar.
 2013.12.03: Changed in validate.js; mplus2 to mplusall. Release to Nectar.
-
+2014.01.07: Added bottle.app() at end of main to run as WSGI. Release to Nectar. 
+ 
 Don't forget to update version number below!
 '''
 
-version = '2013.12.03'
+version = '2014.01.07'
 
 # If TEST is True then the following will change:
 # - the app will run under a local fastcgi server,
 # - the temp dir will be a local one in your current directory,
 # - files in the temp dir will not be deleted at the end of the script.
 # You need to set this to False for Production on Nectar!
-TEST = False
+TEST = True
 
 from bottle import route, run, template, request
 from bottle import static_file
 from bottle import debug
 from bottle import FlupFCGIServer
+import bottle    # added for bottle.app()
 import subprocess
 import os, datetime
 from tempfile import mkdtemp
@@ -309,7 +311,7 @@ def help():
 @route('/choice/test/<name>')
 @route('/choice/test/<name>/')
 def test(name='Mike'):
-    now = datetime.datetime.now().strftime('%y.%m.%d   %I:%M:%S %P')
+    now = datetime.datetime.now().strftime('%Y.%m.%d  %I:%M:%S %P')
     page='''
     <html>
     <body>
@@ -328,7 +330,7 @@ def test(name='Mike'):
 @route('/choice')
 @route('/choice/')
 def start_page():
-    now = datetime.datetime.now().strftime('%y.%m.%d   %I:%M:%S %P')
+    now = datetime.datetime.now().strftime('%Y.%m.%d at %I:%M:%S %P')
     return template('start_page', now=now, version=version)
 
 
@@ -417,6 +419,7 @@ def process():
 # Run the application
 #####################
 
+
 if TEST:
     # If debug(True) uncommented then Exception and Traceback output 
     # will go to the web browser screen.
@@ -427,6 +430,10 @@ else:
     # Use this to run under a FastCGI server on a TCP port. 
     # This host & port must also be specified in the nginx conf file for this site. 
     # and the nginx service must be running.  
-    run(server=FlupFCGIServer, port=9000, host='localhost')
+    #run(server=FlupFCGIServer, port=9000, host='localhost')
 
+    # https://groups.google.com/forum/#!topic/bottlepy/wRfgm4obLXk
+    # TODO needs to be this:
+    application = bottle.app()
+    # Now see it at: http://localhost:9090/choice
 

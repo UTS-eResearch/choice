@@ -38,6 +38,7 @@ Versions:
 2013.11.18: Added code to check for fraction input in det. Release to Nectar.
 2013.11.21: Added maximum time to run for. Release to Nectar.
 2013.11.27: Fixed code errors with detString. Release to Nectar.
+2014.01.07: Release to Nectar.
 
 
 Details
