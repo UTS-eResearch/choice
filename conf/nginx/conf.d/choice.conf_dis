@@ -1,0 +1,61 @@
+#
+# Choice server
+#
+server {
+    listen 80 default_server;
+    server_name $hostname;
+    #charset koi8-r;
+    #access_log  logs/host.access.log  main;
+    root /home/ec2-user/public_html;
+    access_log /home/ec2-user/nginx_access.log;
+    error_log  /home/ec2-user/nginx_error.log;
+
+    #error_page 404 /404.html;
+    #location = /404.html {
+    #    root /home/ec2-user/public_html/choice/views;
+    #}
+
+    # redirect server error pages to the static page /50x.html
+    #error_page 500 502 503 504 /50x.html;
+    #location = /50x.html {
+    #    root /home/ec2-user/public_html/choice/views;
+    #}
+
+    location  / {
+    #location ~ ^/choice/\.py$ {
+        gzip off;
+        # The root variable needs to be the directory where the cgi-bin dir lives.
+        #root /home/ec2-user/public_html/choice;
+        # pass the Python scripts to the FastCGI server listening on 127.0.0.1:9000
+        fastcgi_pass   127.0.0.1:9000;
+        # include fastcgi_params;
+        
+        # begin --- copied from fastcgi_params
+        
+        #fastcgi_param  DOCUMENT_ROOT      $document_root;
+        #fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+        #fastcgi_param  SCRIPT_NAME        $fastcgi_script_name;
+        fastcgi_param  DOCUMENT_ROOT      /home/ec2-user/public_html;
+        fastcgi_param  SCRIPT_FILENAME    /home/ec2-user/public_html/choice.py;
+        fastcgi_param  SCRIPT_NAME        choice.py;
+        
+        fastcgi_param  QUERY_STRING       $query_string;
+        fastcgi_param  REQUEST_METHOD     $request_method;
+        fastcgi_param  CONTENT_TYPE       $content_type;
+        fastcgi_param  CONTENT_LENGTH     $content_length;
+        fastcgi_param  REQUEST_URI        $request_uri;
+        fastcgi_param  DOCUMENT_URI       $document_uri;
+        fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+        
+        fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
+        fastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
+        
+        fastcgi_param  REMOTE_ADDR        $remote_addr;
+        fastcgi_param  REMOTE_PORT        $remote_port;
+        fastcgi_param  SERVER_ADDR        $server_addr;
+        fastcgi_param  SERVER_PORT        $server_port;
+        fastcgi_param  SERVER_NAME        $server_name;
+        # end --- copied from fastcgi_params
+    }
+}
+
