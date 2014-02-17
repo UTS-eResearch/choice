@@ -20,12 +20,11 @@ Version of this Doc: 17 Feb 2014
 <a href="#release"/>New Version Release at Nectar</a>
 <a href="#required"/>Software Required</a>
 <a href="#setup"/>System Setup at Nectar</a>
-
 <a href="#programs"/>Two Programs - choice.py and process_choices.py</a>
 <a href="#linux"/>Running under Linux</a>
 <a href="#tests"/>Running Regression Tests</a>
-<a href="#windows"/>Running under Windows </a>
 <a href="#wsgi"/>Testing a Minimal WSGI App</a>
+<a href="#windows"/>Running under Microsoft Windows </a>
 <a href="#problems"/>Problems Encountered</a> 
 <a href="#tosort"/>To Sort</a> 
 <a href="#refs"/>Programming References</a>
@@ -336,28 +335,6 @@ $
 
 <p><a href="#top">Top</a></p>
 
-<a name="windows"/><h2>Running under Windows </h2>
-
-<p>The web server and its app (i.e. <tt>choice.py</tt>) can't be run under Windows but the 
-program <tt>process_choices.py</tt> can be run under Windows. This means that Emily Bird 
-can run and debug her code on Windows. For details on this see below.</p>
-
-<p>Copy all the files over to the Windows box. <br>
-There needs to be the directory: test with its test files.<br>
-There needs to be the files: <tt>process_choices.py</tt> and <tt>choice_common.py</tt>
-</p>
-
-<p>Then run it like this: </p>
-
-<pre>
-C:\choice_emily&gt; C:\Python27\python.exe process_choices.py test\check_main_1 check main
-C:\choice_emily&gt; 
-</pre>
-
-<p>Note: Regression tests also can't be run under Windows.</p>
-
-<p><a href="#top">Top</a></p>
-
 <a name="wsgi"/><h2>Testing a Minimal WSGI App</h2>
 
 <p>With Python, you use the WSGI (Web Server Gateway Interface) on top of an fcgi
@@ -410,6 +387,29 @@ Goto: http://localhost:9090/
 The choice app displays OK. [Shut down the uWSGI server by pressing Ctrl-C.] 
 
 <p><a href="#top">Top</a></p>
+
+<a name="windows"/><h2>Running under Microsoft Windows </h2>
+
+<p>The web server and its app (i.e. <tt>choice.py</tt>) can't be run under Windows but the 
+program <tt>process_choices.py</tt> can be run under Windows. This means that Emily Bird 
+can run and debug her code on Windows. For details on this see below.</p>
+
+<p>1. Copy the following files over to the Windows box: 
+<tt>process_choices.py</tt> and <tt>choice_common.py</tt><br>
+2. Copy the directory <tt>test</tt>  with its test files to the Windows box.<br>
+</p>
+
+<p>Then run it like this: </p>
+
+<pre>
+C:\choice_emily&gt; C:\Python27\python.exe process_choices.py test\check_main_1 check main
+C:\choice_emily&gt; 
+</pre>
+
+<p>Note: Regression tests also can't be run under Windows.</p>
+
+<p><a href="#top">Top</a></p>
+
 
 <a name="problems"/><h2>Problems Encountered</h2> 
 
@@ -506,22 +506,12 @@ has now gone.
 <a name="tosort"/><h2>To Sort</h2> 
 
 <pre>
-------------------------------------------
-
-$ sudo systemctl stop httpd.service
-$ sudo systemctl disable httpd.service
-
-$ sudo systemctl start nginx.service
-$ sudo systemctl enable  nginx.service
-ln -s '/usr/lib/systemd/system/nginx.service' '/etc/systemd/system/multi-user.target.wants/nginx.service'
-$ 
-
-------------------------------------------
 
 Example of javascript tooltip: 
 <a href="javascript:popUp('/choice/help#effect')">Which effects do you want to estimate?</a>
 
 ---------------------------------------------
+Implementing a Timeout
 
 http://stackoverflow.com/questions/1191374/subprocess-with-timeout
 
