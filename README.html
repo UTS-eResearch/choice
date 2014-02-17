@@ -11,8 +11,8 @@
 <a name="top" />
 <h1>Discrete Choice Experiments</h1>
 
-<p>Author: Mike lake <br>
-Version of this doc: 11 Feb 2014
+<p>Author: Mike Lake <br>
+Version of this Doc: 17 Feb 2014
 </p>
 
 <pre>
@@ -23,13 +23,12 @@ Version of this doc: 11 Feb 2014
 
 <a href="#programs"/>Two Programs - choice.py and process_choices.py</a>
 <a href="#linux"/>Running under Linux</a>
-<a href="#input_validation"/>Input Validation</a> 
 <a href="#tests"/>Running Regression Tests</a>
 <a href="#windows"/>Running under Windows </a>
 <a href="#wsgi"/>Testing a Minimal WSGI App</a>
 <a href="#problems"/>Problems Encountered</a> 
-To SORT at end
-<a href="#refs"/>References</a>
+<a href="#tosort"/>To Sort</a> 
+<a href="#refs"/>Programming References</a>
 </pre>
 
 <a name="description"/><h2>Description</h2>
@@ -41,9 +40,11 @@ Mike Lake wrote the choice.py and Emily Bird (from Maths) wrote the main functio
 process_choices.py.  
 </p>
 
+<p><a href="#top">Top</a></p>
+
 <a name="release"/><h2>New Version Release at Nectar</h2>
 
-<p>This is how to do a new relaese at the Nectar hosted site.
+<p>This is how to do a new release at the Nectar hosted site.
 </p>
 
 <pre>
@@ -105,6 +106,8 @@ numpy                   provides numerical array maths
 
 sympy-sympy-0.7.2.tar   provides symbolic maths for python from http://sympy.org
 </pre>
+
+<p><a href="#top">Top</a></p>
 
 <a name="setup"/><h2>System Setup at Nectar</h2>
 
@@ -182,99 +185,66 @@ $ systemctl list-unit-files | grep emp
   emperor.uwsgi.service   enabled
 </pre>
  
-
+<p><a href="#top">Top</a></p>
 
 <a name="programs"/><h2>Two Programs - choice.py and process_choices.py</h2>
 
-<a name="input_validation"/><h2>Input Validation</h2> 
-
-<p>
-inputs_validation() <br>
-&nbsp;&nbsp; Check radio buttons
-&nbsp;&nbsp; 
-</p>
-
-<p>
-Note: To turn off the javascript validation edit <tt>views/head.tpl</tt> and rename the 
-<tt>src="/static/validate.js"</tt> to something &quot;wrong&quot; so it won't load.
-</p>
-
 <pre>
 +--- Users Web Browser ---+
-|  Javascript validation  | 
+|                         |
+|  Javascript validation  | <-- Note 1 
 |  for basic checking     |
 +-------------------------+
               |
               |
-+-- choice.py: web application --+
-| gets inputs from web browser   |  
-| inputs_validation()            |      +---- process_choices.py ---+ 
-|                                |      | get_expected_io()         |
-| write_input_files() ----------------> | read_input_files()        |  
-|                                |      |   ... processing ...      |
-|                                |      |   ... processing ...      |
-| read_output_files() <---------------- | write_output_files()      |
-|                                |      +---------------------------+
-| creates HTML pages with data   | 
-+--------------------------------+
++--- choice.py: web application ---+
+|                                  | 
+| gets inputs from web browser     |      +--- process_choices.py ----+ 
+| inputs_validation()              |      |                           |
+|                                  |      | get_expected_io()         |
+| write_input_files() ------------------> | read_input_files()        |  
+|                                  |      |   ... processing ...      |
+|                                  |      |   ... processing ...      |
+| read_output_files() <------------------ | write_output_files()      |
+|                                  |      +---------------------------+
+| creates HTML pages with data     | 
++----------------------------------+
               |
               |
 +--- Users Web Browser ---+
+|                         |
 |         results         |
 +-------------------------+
-
 </pre>
 
-choice.py
+<table border=1>
+<tr>
+    <td>choice.py
 <pre>
-    reads form input values (as dict)  
-    writes input values to files in a temp dir
-    runs process_choices.py
-    reads output values from these files
-    writes values to web page
+reads form input values (as dict)  
+writes input values to files in a temp dir
+runs process_choices.py
+reads output values from these files
+writes values to web page
 </pre>
-
-process_choices.py
+    </td>
+    <td>process_choices.py
 <pre>
-    reads input values from files in temp dir
-    processes them
-    writes output values to files in temp dir
+reads input values from files in temp dir
+processes them
+writes output values to files in temp dir
 </pre>
+    </td>
+</tr>
+</table>
 
 
-<pre>
-Directories:
-    static  &nbsp;-- CSS, images, JS   
-    views   &nbsp;-- templates
-</pre>
+<p>
+Note 1: To turn off the javascript validation edit <tt>views/head.tpl</tt> and rename the 
+<tt>src="/static/validate.js"</tt> to something &quot;wrong&quot; so it won't load.
+</p>
 
-<pre>
-Summary of Logic
-
-input text name=factors size=1 maxlength=2      Number of attributes (k)
-input text name=levels size=20 maxlength=60     Levels for each attribute
-input text name=msize size=1 maxlength=2        Number of options in each choice set (m)
-
-input radio name=corc value=construct 
-input radio name=corc value=check 
-
-input radio name=effect value=main checked=checked
-input radio name=effect value=mplusall
-input radio name=effect value=mplussome
-
-input text name=det size=20 maxlength=40
-input text name=2fis size=30 maxlength=100
-
-input textarea name=tmts    Enter the treatment combinations in the<br/> starting design
-input textarea name=gens    Enter the sets of generators to construct<br/> the choice set:
-or
-input textarea name=chsets  Enter the Choice Sets to be checked:
-
-input [ submit ]
-input [ reset ]
-</pre>
-
-
+<p><a href="#top">Top</a></p>
 
 <a name="linux"/><h2>Running under Linux</h2>
 
@@ -353,6 +323,7 @@ Note: For Mikes laptop only make sure nginx is running and not apache:
   $ 
 </pre>
 
+<p><a href="#top">Top</a></p>
 
 <a name="tests"/><h2>Running Regression Tests</h2>
 
@@ -363,16 +334,17 @@ $ ./regression_test_all.sh
 $
 </pre>
 
+<p><a href="#top">Top</a></p>
 
 <a name="windows"/><h2>Running under Windows </h2>
 
-<p>The web server and its app (i.e. choice.py) can't be run under Windows but the 
-main program process_choices.py can be run under Windows. This means that Emily Bird 
+<p>The web server and its app (i.e. <tt>choice.py</tt>) can't be run under Windows but the 
+program <tt>process_choices.py</tt> can be run under Windows. This means that Emily Bird 
 can run and debug her code on Windows. For details on this see below.</p>
 
 <p>Copy all the files over to the Windows box. <br>
-There needs to be the directory: test <br>
-There needs to be the files: <tt>process_choices.py choice_common.py</tt>
+There needs to be the directory: test with its test files.<br>
+There needs to be the files: <tt>process_choices.py</tt> and <tt>choice_common.py</tt>
 </p>
 
 <p>Then run it like this: </p>
@@ -383,6 +355,8 @@ C:\choice_emily&gt;
 </pre>
 
 <p>Note: Regression tests also can't be run under Windows.</p>
+
+<p><a href="#top">Top</a></p>
 
 <a name="wsgi"/><h2>Testing a Minimal WSGI App</h2>
 
@@ -435,6 +409,7 @@ Goto: http://localhost:9090/
 
 The choice app displays OK. [Shut down the uWSGI server by pressing Ctrl-C.] 
 
+<p><a href="#top">Top</a></p>
 
 <a name="problems"/><h2>Problems Encountered</h2> 
 
@@ -526,9 +501,9 @@ the tarball source package sympy-sympy-0.7.2.tar. The problem
 has now gone. 
 </p>
 
+<p><a href="#top">Top</a></p>
 
-
-<h2> To SORT </h2>
+<a name="tosort"/><h2>To Sort</h2> 
 
 <pre>
 ------------------------------------------
@@ -542,8 +517,6 @@ ln -s '/usr/lib/systemd/system/nginx.service' '/etc/systemd/system/multi-user.ta
 $ 
 
 ------------------------------------------
-
-<a name="code_notes"/><h2>Code Notes</h2>
 
 Example of javascript tooltip: 
 <a href="javascript:popUp('/choice/help#effect')">Which effects do you want to estimate?</a>
@@ -577,6 +550,8 @@ return_value = subprocess.call(['./process_choices.py', tempdir, 'construct', 'm
 -----------------------------
 </pre>
 
+<p><a href="#top">Top</a></p>
+
 <a name="refs"/><h2>Programming References</h2>
 
 <pre>
@@ -598,7 +573,7 @@ return_value = subprocess.call(['./process_choices.py', tempdir, 'construct', 'm
 <a href="http://scardig.com/articoli/2010/02/03/Webpy-deployment-through-Nginx-Fastcgi-Spawn-fcgi-and-Flup.html">Webpy-deployment-through-Nginx-Fastcgi-Spawn-fcgi-and-Flup</a>
 </pre>
 
-<a href="#top">Top</a>
+<p><a href="#top">Top</a></p>
 
 <p>&nbsp; <!-- creates blank line at end --> </p>
 
