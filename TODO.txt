@@ -50,4 +50,31 @@ DONE
    blank).
 
 
- 
+Implementing a Timeout
+----------------------
+
+Refs:
+http://stackoverflow.com/questions/1191374/subprocess-with-timeout
+http://stackoverflow.com/questions/3733270/python-subprocess-timeout
+http://howto.pui.ch/post/37471155682/set-timeout-for-a-shell-command-in-python
+
+See 
+  p = process.ProcessOpen("notepad.exe")
+  p.wait(timeout=5)
+
+
+subprocess.call(): 
+
+See pydoc subprocess for "call" details. 
+This returns 0 if all is OK.
+To capture standard error in the result use stderr=STDOUT.
+The exception object will have one extra attribute called
+'child_traceback', which is a string containing traceback information
+from the childs point of view.
+See also "check_call"
+
+(['./process_choices.py', 'construct', 'main'], stderr=subprocess.STDOUT)
+return_value = subprocess.call(['./process_choices.py', tempdir, 'construct', 'main'] )
+
+
+
