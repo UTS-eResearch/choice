@@ -1,4 +1,4 @@
-TODI List
+TODO List
 =========
 
 Fix not found errors in nginx logs
@@ -19,6 +19,35 @@ This is becasue in nginx/conf.d/default.conf we have:
   error_page  500 502 503 504  /50x.html;
   location = /50x.html {
   }
+
+
+User Requests
+-------------
+
+Emily Bird in email dated 20.01.2014 asked:
+
+1) Order of the output. Can we please have the following order:
+   - B Matrix
+   - Lambda Matrix
+   - C Matrix
+   - C Inverse
+   - Correlation Matrix
+
+DONE
+
+2) Remove the time/date from output (but it looks like this request is out of
+   date - the time/date doesn't appear in the output anymore, does it?)
+
+DONE
+
+3) Remove the output "Your input seems fine". 
+
+DONE
+
+4) When "Main effects + all two-factor interactions" or "Main effects + some
+   two-factor interactions" is selected but no determinant is entered, display
+   "None" under the heading "Determinant of C Entered" (at the moment it is just
+   blank).
 
 
  
