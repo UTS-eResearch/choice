@@ -4,10 +4,10 @@
 # we need at Nectar so we have a local backup of them. 
 
 # Mikes private key for Nectar instance.
-key='/home/mlake/.ssh/keys/mikes_nectar.pri'
+key='/home/mlake/.ssh/keys/uts-choice.pem'
 
 # Login details for Nectar instance. 
-src='ec2-user@115.146.85.135'
+src='ec2-user@130.56.248.113'
 
 # Get nginx configuration files from /etc
 # Note: we don't get everything from under /etc/nginx/ as many of the files
@@ -16,5 +16,6 @@ scp -i $key $src:/etc/nginx/nginx.conf nginx/
 scp -i $key -r $src:/etc/nginx/conf.d nginx/
 
 # Get uwsgi configuration files from /etc
-scp -i $key -r $src:/etc/uwsgi/* uwsgi/
+scp -i $key $src:/etc/uwsgi.ini uwsgi/
+scp -i $key -r $src:/etc/uwsgi.d uwsgi/
 
