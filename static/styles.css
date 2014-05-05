@@ -1,5 +1,6 @@
 /* Styles for Choice Application */
 
+/* Uncomment this for style debugging. */
 /* div { border:1px solid red;} */
 
 /* Changed from powderblue to lightyellow */
@@ -10,7 +11,7 @@ h2 { font-family:Arial,Helvetica,sans-serif; font-size:120%; font-weight:bold; }
 /* h3 is only used in the README.html */
 h3 { font-family:serif; font-size:110%; font-weight:bold; text-indent:1.2ex;}
 
-/* This removed the space abobe the H2 when inside these divs. */
+/* This removed the space above the H2 when inside these divs. */
 div.left h2 { margin-top:0pt; }
 
 .container { 

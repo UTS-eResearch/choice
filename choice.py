@@ -43,7 +43,7 @@ version = '2014.01.07'
 # - the temp dir will be a local one in your current directory,
 # - files in the temp dir will not be deleted at the end of the script.
 # You need to set this to False for Production on Nectar!
-TEST = True
+TEST = False
 
 from bottle import route, run, template, request
 from bottle import static_file
