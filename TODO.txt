@@ -1,0 +1,24 @@
+TODI List
+=========
+
+Fix not found errors in nginx logs
+----------------------------------
+
+In nginx logs we get:
+
+2014/05/05 10:02:02 [error] 29064#0: *80 open() "/home/ec2-user/public_html/404.html" failed (2: No such file or directory), client: 124.122.140.15, server: localhost, request: "GET /myadmin/scripts/setup.php HTTP/1.1", host: "130.56.248.113"
+
+This is becasue in nginx/conf.d/default.conf we have:
+
+  # redirect server error pages to the static page /40x.html
+  error_page  404  /404.html;
+  location = /40x.html {
+  }
+  
+  # redirect server error pages to the static page /50x.html
+  error_page  500 502 503 504  /50x.html;
+  location = /50x.html {
+  }
+
+
+ 
