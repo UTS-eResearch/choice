@@ -154,6 +154,13 @@ chown ec2-user:nginx *.py
 chmod ug+x *.py
 </p>
 
+Make sute that nginx starts at boot time:
+<pre>
+$ sudo systemctl enable nginx.service
+ln -s '/usr/lib/systemd/system/nginx.service' '/etc/systemd/system/multi-user.target.wants/nginx.service'
+$ 
+</pre>
+
 TODO deployment: nginx+uwsgi
 TODO nohup python app.py &amp; - run in background with ability to logout from console.
 
@@ -247,6 +254,12 @@ detected max file descriptor number: 1024
 ------------------------------------------------------------------
 </pre>
 
+Make sure uWSGI starts at boot time:
+<pre>
+$ sudo systemctl enable uwsgi.service
+ln -s '/usr/lib/systemd/system/uwsgi.service' '/etc/systemd/system/multi-user.target.wants/uwsgi.service'
+$ 
+</pre>
 
 
 <h3>systemd Setup at Nectar</h3>
