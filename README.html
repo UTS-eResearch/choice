@@ -154,7 +154,7 @@ chown ec2-user:nginx *.py
 chmod ug+x *.py
 </p>
 
-Make sute that nginx starts at boot time:
+Make sure that nginx starts at boot time:
 <pre>
 $ sudo systemctl enable nginx.service
 ln -s '/usr/lib/systemd/system/nginx.service' '/etc/systemd/system/multi-user.target.wants/nginx.service'
