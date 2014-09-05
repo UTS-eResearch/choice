@@ -42,7 +42,7 @@
 %if 'det' in inputs:
   <h2>Determinant of C Entered</h2> {{ inputs['det'] }}
 %else:
-  <p>None entered</p>
+  <p>No determinant entered</p>
 %end
 
 <!-- Outputs -->
