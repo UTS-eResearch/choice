@@ -5,7 +5,7 @@
 <p>The form allows for either checking the user's own choice sets
 or constructing choice sets from a starting design and adding generators.
 The theory underpinning the calculations is given in
-<a href="http://TODO">&quot;The Construction of Optimal Stated Choice Experiments&quot;</a>
+&quot;The Construction of Optimal Stated Choice Experiments&quot;
 by Deborah J. Street and Leonie Burgess.
 </p>
 
@@ -66,8 +66,8 @@ profiles in the first option of the choice sets.
 </p>
 
 <ul>
-	<li>A Library of Orthogonal Arrays maintained by Neil Sloane at 
-    <a href="http://www.research.att.com/~njas/oadir/">http://www.research.att.com/~njas/oadir/</a>
+	<li>A Library of Orthogonal Arrays maintained by Neil Sloane at  
+    <a href="http://neilsloane.com/oadir/">http://neilsloane.com/oadir/</a>
 	</li>
 	<li>Orthogonal Arrays maintained by Warren Kuhfeld at
 		<a href="http://support.sas.com/techsup/technote/ts723.html">http://support.sas.com/techsup/technote/ts723.html</a>
