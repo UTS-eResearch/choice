@@ -8,8 +8,6 @@ following citation: <br>
 &nbsp;&nbsp; available from http://maths.science.uts.edu.au/maths/wiki/SPExpts <br>
 </p>
 
-<p>Today's date and time is {{ now }}.  </p>
-
 <form id="mf" action="/choice/process/" method="post" onsubmit="return verify();"> 
 <p>
 <input type="button" value="Construct Example 1" onclick="example_1();"/> &nbsp; 
@@ -165,7 +163,8 @@ following citation: <br>
      	items are shown or not shown. Current set for corc = "check" -->
 </div>
 </form>
-<p>Ver: {{ version }}</p>
+<p>Today's date and time is {{ now }} EST.</p>
+<p>Software Version: {{ version }}</p>
 
 %include tail
 
