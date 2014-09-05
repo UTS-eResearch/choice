@@ -5,8 +5,13 @@
 <p>The form allows for either checking the user's own choice sets
 or constructing choice sets from a starting design and adding generators.
 The theory underpinning the calculations is given in
-&quot;The Construction of Optimal Stated Choice Experiments&quot;
-by Deborah J. Street and Leonie Burgess.
+<blockquote>
+&quot;The Construction of Optimal Stated Choice Experiments&quot; <br>
+Deborah J. Street, Leonie Burgess <br>
+ISBN: 978-0-470-05332-4 <br>
+Hardcover, 344 pages <br>
+June 2007
+</blockquote>
 </p>
 
 <p>The computational software is written in Python and we have had to place
