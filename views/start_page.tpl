@@ -17,7 +17,7 @@ following citation: <br>
 <input type="button" value="Construct Example 3" onclick="example_3();"/> &nbsp; 
 <input type="button" value="Check Example 4"     onclick="example_4();"/> &nbsp; 
 <input type="button" value="Clear" onclick="allclear();" /> &nbsp; 
-<a href="/choice/help" target="_blank">Detailed Help Page</a> 
+<a href="/choice/help">Detailed Help Page</a> 
 <br>
 <input type="button" value="Test 1" onclick="test_1();"/> &nbsp; 
 

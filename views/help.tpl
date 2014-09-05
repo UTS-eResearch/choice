@@ -1,6 +1,8 @@
 %include head
 %include top.tpl title='Help Page for Discrete Choice Experiments'
 
+<p><a href="/choice">Return to Choice Experiments</a></p>
+
 <h3>Introduction</h3>
 <p>The form allows for either checking the user's own choice sets
 or constructing choice sets from a starting design and adding generators.
