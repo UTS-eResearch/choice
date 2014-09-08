@@ -39,6 +39,7 @@ Versions:
 2013.11.21: Added maximum time to run for. Release to Nectar.
 2013.11.27: Fixed code errors with detString. Release to Nectar.
 2014.01.07: Release to Nectar.
+2014.09.08: Release to Nectar.
 
 
 Details

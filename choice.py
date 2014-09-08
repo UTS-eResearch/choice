@@ -32,11 +32,13 @@ Versions:
             Release to Nectar.
 2013.12.03: Changed in validate.js; mplus2 to mplusall. Release to Nectar.
 2014.01.07: Added bottle.app() at end of main to run as WSGI. Release to Nectar. 
+2014.09.08: Version info is now in github
+            Release to Nectar.
  
 Don't forget to update version number below!
 '''
 
-version = '2014.01.07'
+version = '2014.09.08'
 
 # If TEST is True then the following will change:
 # - the app will run under a local fastcgi server,

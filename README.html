@@ -3,7 +3,7 @@
 <title>Discrete Choice Experiments</title>
 <style type="text/css">
   body {bgcolor:'lightyellow';}
-  pre {font-size:100%; margin-left:2ex;}
+  pre {font-size:120%; margin-left:2ex;}
   h1 { font-family:Arial,Helvetica,sans-serif; font-size:160%; font-weight:bold; }
   h2 { font-family:Arial,Helvetica,sans-serif; font-size:120%; font-weight:bold; }
   h3 { font-family:serif; font-size:100%; font-weight:bold; text-indent:1.2ex; }
@@ -15,7 +15,7 @@
 <h1>Discrete Choice Experiments</h1>
 
 <p>Author: Mike Lake <br>
-Version of this Doc: 05 May 2014
+Version of this Doc: 2014.09.08
 </p>
 
 <pre>
@@ -49,12 +49,6 @@ process_choices.py.
 </p>
 
 <pre>
-TODO 
-Mikes Nectar was : ec2-user@115.146.85.135
-New Production:    ec2-user@130.56.248.113
-</pre>
-
-<pre>
 1. Update version numbers for:
    choice.py               version = '2013.10.23' 
    choice_common.py
@@ -62,18 +56,15 @@ New Production:    ec2-user@130.56.248.113
 
    The version number for all programs should all be set to the same date.
 
-2. Turn off TEST in choice.py
+2. Checkin changes and push to github.
 
-   At the top of the program set 
-   "TEST = False"
-
-3. Run the script ./release_to_nectar.sh 
+2. Run the script ./release_to_nectar.sh 
    This will just make a tarball of the required files and scp the tarball to Nectar's 
    /home/ec2-user/public_html/ 
    It will then echo to the screen the command for logging into Nectar 
    $ ./release_to_nectar.sh 
 
-4. Login to Nectar  (this is done automatically by the above script)
+3. Login to Nectar  (this is done automatically by the above script)
    $ ssh -i ~/.ssh/keys/mikes_nectar ec2-user@130.56.248.113
   
    Your home directory will be /home/ec2-user/
@@ -91,7 +82,7 @@ New Production:    ec2-user@130.56.248.113
    $ sudo systemctl start nginx.service
    $ sudo systemctl restart uwsgi.service
  
-5. Check <a href="http://130.56.248.113">http://130.56.248.113/choice</a> 
+4. Check <a href="http://130.56.248.113">http://130.56.248.113/choice</a> 
    It should show the correct version number at the bottom left of the page. 
 </pre>
 
