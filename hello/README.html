@@ -1,0 +1,56 @@
+<html>
+<head>
+</head>
+<body>
+<h1>Minimal hello uWSGI App </h1>
+
+The python application is <tt>hello.py</tt>. 
+
+It can be either run from itself or from Nginx web server
+
+<h2>Running from itself</h2> 
+
+<p>To run it from itself start it like this: 
+
+<pre>
+uwsgi --http :9090 --plugin python --wsgi-file path/to/project/hello.py
+</pre>
+
+View it in a web browser at:  
+<a href="http://localhost:9090">http://localhost:9090</a> or 
+<a href="http://localhost:9090">http://localhost:9090/hello</a> or
+<a href="http://localhost:9090">http://localhost:9090/hello/</a>
+</p>
+
+Instead of specifying stuff on the command line you can use a WSGI ini file.
+Have a look at <tt>hello-uwsgi.ini</tt>. Using an ini file you run it like this:
+
+<pre>
+$ uwsgi --ini hello-uwsgi.ini
+</pre>
+
+<p>It is now viewable at the same URls as above. </p>
+
+<h2>Using Nginx</h2> 
+
+<p>Have a look at the nginx configuration file <tt>hello.conf</tt>. 
+This would be placed in <tt>/etc/nginx/conf.d/</tt>
+</p>
+ 
+View it at <a href="http://localhost/hello">http://localhost/hello</a> (Note, no port number now.)
+
+<p>Remember after making changes to an nginx conf file you will need to:
+<p>
+<pre>
+$ sudo service nginx reload
+</pre>
+
+
+
+
+<p>&nbsp; <!-- creates blank line at end -->
+</p>
+
+</body>
+</html>
+
