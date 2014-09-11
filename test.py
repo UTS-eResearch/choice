@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# A general python test script to test out miscellanous little things.
+
 from datetime import datetime, timedelta, date
 
 start = datetime.now()
@@ -30,6 +32,5 @@ if optdet<0 or optdet>1:
     print 'XX', optdet
 else:
     print 'OK', optdet
-
 
 
