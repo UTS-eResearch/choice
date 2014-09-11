@@ -6,12 +6,12 @@
 <h3>Introduction</h3>
 <p>The form allows for either checking the user's own choice sets
 or constructing choice sets from a starting design and adding generators.
-The theory underpinning the calculations is given in
+The theory underpinning the calculations is given in the book:
+
 <blockquote>
 &quot;The Construction of Optimal Stated Choice Experiments&quot; <br>
-Deborah J. Street, Leonie Burgess <br>
-ISBN: 978-0-470-05332-4 <br>
-Hardcover, 344 pages <br>
+Street, D.J. and Burgess, L. (2007), <br>
+Hoboken, NJ: Wiley. ISBN: 978-0-470-05332-4 <br>
 June 2007
 </blockquote>
 </p>

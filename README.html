@@ -8,6 +8,7 @@
   h2 { font-family:Arial,Helvetica,sans-serif; font-size:120%; font-weight:bold; }
   h3 { font-family:serif; font-size:100%; font-weight:bold; text-indent:1.2ex; }
   td { padding-left: 2ex; }
+  tt {font-size:120%; }
 </style>
 </head>
 <body>
@@ -133,7 +134,7 @@ The changes are documented in these files. Search for MRL strings for changes.
 <tt>/etc/nginx/conf.d/default.conf</tt> &lt;&lt; contains hello and choice apps. <br>
 <tt>/usr/share/nginx/html/index.html</tt> Changed to just say "Nothing here." <br>
 <tt>/home/ec2-user/public_html</tt> &lt;&lt; Created public_html directory. <br>
-Changed <tt>drwx------ /home/ec2-user</tt> to <tt>drwxr-xr-x</tt> via <tt>ugo+rx</tt> so nginx can see the public_html dir. <br>
+Changed <tt>drwx------ /home/ec2-user</tt> to <tt>drwxr-xr-x</tt> so nginx can see the public_html dir. <br>
 
 etc/$ sudo /usr/sbin/nginx -t
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
