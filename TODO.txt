@@ -1,6 +1,39 @@
 TODO List
 =========
 
+September 2014
+---------------
+
+Error: 500 Internal Server Error
+Sorry, the requested URL 'http://130.56.248.113/choice/process/' caused an error:
+Internal Server Error
+
+This error is not logged under /var/log/nginx/choice_error.log
+It's logged at /var/log/uwsgi.log
+
+[root@uts-choice etc]# tail /var/log/uwsgi.log 
+  File "/usr/lib/python2.7/site-packages/bottle.py", line 1574, in wrapper
+    def set_cookie(self, name, value, secret=None, **options):
+  File "/home/ec2-user/public_html/choice/choice.py", line 416, in process
+    outputs = read_output_files(outputs_to_read, tempdir)
+  File "/home/ec2-user/public_html/choice/choice.py", line 175, in read_output_files
+    write_errors('Output file: %s (%s)\n' % (filename, e))
+  File "./choice_common.py", line 27, in write_errors
+    fh = open('errors.txt', 'a')
+IOError: [Errno 13] Permission denied: 'errors.txt'
+[pid: 27375|app: 0|req: 85/85] 138.25.35.165 () {44 vars in 768 bytes} [Fri Sep 12 15:27:19 2014] POST /choice/process/ => generated 756 bytes in 2115 msecs (HTTP/1.1 500) 2 headers in 99 bytes (1 switches on core 0)
+[root@uts-choice etc]# 
+
+Temporarily I have made an /tmp/errors.txt that is writable by uwsgi 
+
+[root@uts-choice tmp]# cat errors.txt 
+Output file: out_cinv.dat ([Errno 2] No such file or directory: '/tmp/choice.Hhl7q8/out_cinv.dat')
+Output file: out_correln.dat ([Errno 2] No such file or directory: '/tmp/choice.Hhl7q8/out_correln.dat')
+[root@uts-choice tmp]# 
+
+
+
+
 Fix not found errors in nginx logs
 ----------------------------------
 
