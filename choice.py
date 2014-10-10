@@ -34,11 +34,14 @@ Versions:
 2014.01.07: Added bottle.app() at end of main to run as WSGI. Release to Nectar. 
 2014.09.08: Version info is now in github
             Release to Nectar.
- 
+2014.10.10: Fixed display of det entered as per Emily's request. 
+            Release to Nectar.
+
+
 Don't forget to update version number below!
 '''
 
-version = '2014.09.08'
+version = '2014.10.10'
 
 # If TEST is True then the following will change:
 # - the app will run under a local fastcgi server,
@@ -172,7 +175,8 @@ def read_output_files(outputs_to_read, tempdir):
             fh.close()
         except IOError as e:
             data = None
-            write_errors('Output file: %s (%s)\n' % (filename, e))
+            # TODO 2014.09.15 temp disable this as we are getting a permissions problem.
+            #write_errors('Output file: %s (%s)\n' % (filename, e))
 
         outputs[name] = data
 
@@ -212,6 +216,7 @@ def inputs_validation(inputs):
     # Check name="det". 
     # It must be either integer, float, fraction or exponential or just blank. 
     # e.g. 0 or 1 or 0.123 or 17/12524124635136 or 1.35738e-12 in range (0,1) or '' or ' '.
+    # TODO maybe we should check for key in this dict.
     if inputs['det']:
         det = inputs['det']
         det_is_OK = False
@@ -399,7 +404,7 @@ def process():
     # Here is where we run the program that calculates the "discrete choices".
     # It reads it's input data and writes it's output data as files from /tmp
     try:
-        subprocess.check_output(['./process_choices.py', tempdir, operation, effect], stderr=subprocess.STDOUT )
+        subprocess.check_output(['./process_choices.py', tempdir, operation, effect], stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e: 
         # Just return a simple string rather than a dict like errors['output']. 
         errors = 'Error: %s (returncode %d)' % (e.output, e.returncode) 

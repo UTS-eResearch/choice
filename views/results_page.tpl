@@ -39,11 +39,30 @@
   <pre class="results">{{ inputs['chsets'] }}</pre>
 %end
 
+<div class="container">
+    <div class="left">
 %if 'det' in inputs:
-  <h2>Determinant of C Entered</h2> {{ inputs['det'] }}
+  <h2>Determinant of C Entered</h2> 
+%if inputs['det'] == '':
+None entered
 %else:
-  <p>No determinant entered</p>
+{{ inputs['det'] }}
 %end
+%end
+    </div>
+    <div class="left">
+%if 'twofis' in inputs:
+  <h2>Two-factor Interactions Entered</h2> 
+%if inputs['twofis'] == '':
+None entered
+%else:
+{{ inputs['twofis'] }}
+%end
+%end
+    </div>
+<div class="clear_both"></div>
+</div>
+
 
 <!-- Outputs -->
 
