@@ -36,12 +36,14 @@ Versions:
             Release to Nectar.
 2014.10.10: Fixed display of det entered as per Emily's request. 
             Release to Nectar.
+2014.10.13: Added timeout.  
+            Release to Nectar.
 
 
 Don't forget to update version number below!
 '''
 
-version = '2014.10.10'
+version = '2014.10.13'
 
 # If TEST is True then the following will change:
 # - the app will run under a local fastcgi server,
