@@ -54,7 +54,11 @@ from bottle import static_file
 from bottle import debug
 from bottle import FlupFCGIServer
 import bottle    # added for bottle.app()
-import subprocess
+
+# subprocess is the native one for Pyth0n 2.7 but I have installed subprocess32
+# which is a backport from Python 3.0 which supports a timeout arg. 
+import subprocess32 as subprocess
+
 import os, datetime
 from tempfile import mkdtemp
 import shutil   # for removing a dir tree
@@ -63,6 +67,8 @@ import re       # only used once in validation
 
 # Our own modules
 from choice_common import get_expected_io, write_errors
+
+TIMEOUT = 5 # the maximum time in seconds for a process_choices.py to run 
 
 # Test for test or not. Just touch TEST.
 # and remove the file TEST to go back to production.
@@ -403,11 +409,16 @@ def process():
     
     # Here is where we run the program that calculates the "discrete choices".
     # It reads it's input data and writes it's output data as files from /tmp
+    # subprocess.call(args, *, stdin=None, stdout=None, stderr=None, shell=False, timeout=None)
     try:
-        subprocess.check_output(['./process_choices.py', tempdir, operation, effect], stderr=subprocess.STDOUT)
+        subprocess.check_output(['./process_choices.py', tempdir, operation, effect], stderr=subprocess.STDOUT, timeout=TIMEOUT)
     except subprocess.CalledProcessError as e: 
         # Just return a simple string rather than a dict like errors['output']. 
         errors = 'Error: %s (returncode %d)' % (e.output, e.returncode) 
+        return template('error_page', errors=errors, now=now)
+    except subprocess.TimeoutExpired as e:
+        # Command '['./process_choices.py', 'temp', 'construct', 'main']' timed out after 5 seconds
+        errors = 'Error: the calculation was taking too long so it had to be ended. The maximum time allowed is %d seconds.' % TIMEOUT
         return template('error_page', errors=errors, now=now)
     except OSError as e: 
         errors = 'Error: %s ' % e 
