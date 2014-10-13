@@ -47,7 +47,7 @@ div.results { font-family:"Courier New", monoscape; white-space:pre; }
 input.invalid { background-color: gold; }
 textarea.invalid { background-color: gold; }
 
-pre {font-size:120%;}
+pre { font-size:140%; }
 
 table { padding:5px; }
 table td { vertical-align:top; }
