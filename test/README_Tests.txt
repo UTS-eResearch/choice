@@ -18,8 +18,7 @@ construct_mplussome_1
 Scripts
 -------
 
-compare.sh
-mydiffs.sh
-
+diffdirs.sh      Compares the dat and orig files between two directories.
+set_perms.sh     Set all input and original output files to read only.
 
 
