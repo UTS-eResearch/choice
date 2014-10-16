@@ -187,7 +187,7 @@ def read_input_files(input_dir, expected_input):
 
     # factors should be a single integer
     if 'factors' in expected_input:
-        fh = open('in_factors.dat')
+        fh = open('in_factors.dat', 'r')
         contents = fh.read()
         fh.close()
         try:
@@ -200,7 +200,7 @@ def read_input_files(input_dir, expected_input):
 
     # levels read in as string e.g. '4 3 3 3' & converted to list of ints.
     if 'levels' in expected_input:
-        fh = open('in_levels.dat')
+        fh = open('in_levels.dat', 'r')
         levelsString = fh.read()
         fh.close()
         try:
@@ -213,7 +213,7 @@ def read_input_files(input_dir, expected_input):
 
     # choice set size (m) read in as a string, it's a single integer e.g. 2
     if 'msize' in expected_input:
-        fh = open('in_msize.dat')
+        fh = open('in_msize.dat', 'r')
         cssString = fh.read()
         fh.close()
         try:
@@ -228,7 +228,7 @@ def read_input_files(input_dir, expected_input):
     if 'tmts' in expected_input:
         # MRL version is here, uses two list comprehensions and split() 
         tmts = []
-        fh = open('in_tmts.dat')
+        fh = open('in_tmts.dat', 'r')
         lines = fh.readlines()
         fh.close()
         try:
@@ -242,7 +242,7 @@ def read_input_files(input_dir, expected_input):
     # generators read in and converted to list of tuples.
     if 'gens' in expected_input:
         generators = []
-        fh = open('in_gens.dat')
+        fh = open('in_gens.dat', 'r')
         lines = fh.readlines()
         fh.close()
         try:
@@ -255,7 +255,7 @@ def read_input_files(input_dir, expected_input):
 
     # chsets for checking your own sets 
     if 'chsets' in expected_input:
-        fh = open('in_chsets.dat')
+        fh = open('in_chsets.dat', 'r')
         lines = fh.readlines()
         fh.close()
         try:
@@ -281,7 +281,7 @@ def read_input_files(input_dir, expected_input):
         # Note: In the tests below We set detString to None because later we
         # cast to a float and a float(False) = 0.0 which we don't want.
         try: 
-            fh = open('in_det.dat')
+            fh = open('in_det.dat', 'r')
             detString = fh.read()
             fh.close()
         except IOError as e:
@@ -336,7 +336,7 @@ def read_input_files(input_dir, expected_input):
 
     # twofis - Note TODO check are integers <= k
     if 'twofis' in expected_input:
-        fh = open('in_twofis.dat')
+        fh = open('in_twofis.dat', 'r')
         line = fh.read()
         fh.close()
         twofis = []
@@ -574,11 +574,11 @@ def CheckSets_MainEffects(inputs):
     
     # Save bmat and lmat.
     rows = ''
-    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['bmat'] = rows
     
     rows = ''
-    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['lmat'] = rows
   
     # Exit if this calc is taking too long.
@@ -600,7 +600,7 @@ def CheckSets_MainEffects(inputs):
     
     # Save cmat
     rows = ''
-    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cmat'] = rows
     
     # check the c matrix is of sufficient rank
@@ -640,11 +640,10 @@ Efficiency compared with optimal design for optimal choice set size m = %s: 0%%\
     
     # Save cinv and correln.
     rows = ''
-    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','')
-    outputs['cinv'] = rows
-    
+    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','') + '\n'
+    outputs['cinv'] = rows     
     rows = ''
-    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['correln'] = rows
     
     # calculate the determinant of the optimal design
@@ -871,11 +870,11 @@ def CheckSets_All2fis(inputs):
     
     # Save bmat and lmat.
     rows = ''
-    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['bmat'] = rows
     
     rows = ''
-    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['lmat'] = rows
     
     # Exit if this calc is taking too long.
@@ -897,7 +896,7 @@ def CheckSets_All2fis(inputs):
     
     # Save cmat
     rows = ''
-    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cmat'] = rows
     
     # check the c matrix is of sufficient rank
@@ -933,11 +932,11 @@ def CheckSets_All2fis(inputs):
     
     # Save cinv and correln.
     rows = ''
-    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cinv'] = rows
     
     rows = ''
-    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['correln'] = rows
     
     # If all factor are binary then calculate calculate the determinant of
@@ -1174,11 +1173,11 @@ def CheckSets_Some2fis(inputs):
     
     # Save bmat and lmat.
     rows = ''
-    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['bmat'] = rows
     
     rows = ''
-    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['lmat'] = rows
     
     # Exit if this calc is taking too long.
@@ -1200,7 +1199,7 @@ def CheckSets_Some2fis(inputs):
     
     # Save cmat
     rows = ''
-    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cmat'] = rows
     
     # check the c matrix is of sufficient rank
@@ -1237,11 +1236,11 @@ def CheckSets_Some2fis(inputs):
     
     # Save cinv and correln.
     rows = ''
-    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cinv'] = rows
     
     rows = ''
-    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['correln'] = rows
     
     # If all factor are binary then calculate calculate the determinant 
@@ -1531,11 +1530,11 @@ def ConstructSets_All2fis(inputs):
     
     # Save bmat and lmat.
     rows = ''
-    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','')  + '\n'
     outputs['bmat'] = rows
     
     rows = ''
-    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['lmat'] = rows
     
     # Exit if this calc is taking too long.
@@ -1557,7 +1556,7 @@ def ConstructSets_All2fis(inputs):
     
     # Save cmat
     rows = ''
-    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cmat'] = rows
     
     # check the c matrix is of sufficient rank
@@ -1594,11 +1593,11 @@ def ConstructSets_All2fis(inputs):
     
     # Save cinv and correln.
     rows = ''
-    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cinv'] = rows
     
     rows = ''
-    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['correln'] = rows
     
     # If all factor are binary then calculate calculate the determinant 
@@ -1886,11 +1885,11 @@ def ConstructSets_Some2fis(inputs):
     
     # Save bmat and lmat.
     rows = ''
-    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['bmat'] = rows
     
     rows = ''
-    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['lmat'] = rows
     
     # Exit if this calc is taking too long.
@@ -1912,7 +1911,7 @@ def ConstructSets_Some2fis(inputs):
     
     # Save cmat
     rows = ''
-    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cmat'] = rows
     
     # check the c matrix is of sufficient rank
@@ -1949,11 +1948,11 @@ def ConstructSets_Some2fis(inputs):
     
     # Save cinv and correln.
     rows = ''
-    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cinv'] = rows
     
     rows = ''
-    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['correln'] = rows
     
     # calculate efficiency
@@ -2214,11 +2213,11 @@ def ConstructSets_MainEffects(inputs):
    
     # Save bmat and lmat.
     rows = ''
-    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(bmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['bmat'] = rows
     
     rows = ''
-    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(lmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['lmat'] = rows
     
     # Exit if this calc is taking too long.
@@ -2240,7 +2239,7 @@ def ConstructSets_MainEffects(inputs):
    
     # Save cmat
     rows = ''
-    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cmat)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cmat'] = rows
 
     # check the c matrix is of sufficient rank
@@ -2280,11 +2279,11 @@ Efficiency compared with optimal design for optimal choice set size m = %s: 0%%\
 
     # Save cinv and correln.
     rows = ''
-    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(cinv)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['cinv'] = rows
 
     rows = ''
-    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','')
+    rows += ''.join(str(correln)).replace('[','').replace(']','').replace(',','') + '\n'
     outputs['correln'] = rows
 
     # calculate the determinant of the optimal design
