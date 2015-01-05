@@ -3,15 +3,13 @@ Module that contains common functions for the choice experiments programs
 
 Author: Mike Lake
 Versions: 
-2013.10.09: first version. 
-2013.10.22: fixed extend vs append error. Release to Nectar.
+Add a date here and a description of the changes to this file here. If the change
+results in a new release at Nectar then document that in the main file choice.py.
+2013.10.09: First version. 
+2013.10.22: fixed extend vs append error. 
 2013.10.23: Added a main() so this program can run independently for debugging. 
-            Release to Nectar.
-2013.10.29: Added sort() to output lists. Release to Nectar.
+2013.10.29: Added sort() to output lists.
 2013.11.08: Added write_errors(). 
-2013.11.15: Release to Nectar.
-2014.01.07: Release to Nectar.
-2014.09.08: Release to Nectar.
 
 '''
 

@@ -9,6 +9,8 @@ a cgi script.
 Usage: see the usage() function.
 
 Versions: 
+Add a date here and a description of the changes to this file here. If the change
+results in a new release at Nectar then document that in the main file choice.py.
 2013.08.16: First version by Emily Bird
 2013.08.30: MRL rearranged and tidied up; added lots of comments;
             tabs to spaces; shortened long lines; removed del statements; 
@@ -24,22 +26,17 @@ Versions:
 2013.10.04: Removed outputcode and out_code.dat. 
 2013.10.08: Functions that calculate choice sets no longer write files, pass in
             a dict of input vars and return a dict of output vars. Renamed matc to cmat 
-            and matlam to lmat. Release to Nectar.
+            and matlam to lmat. 
 2013.10.09: Moved functions common to choice.py & process_choices.py to a module. 
-2013.10.10: Added return values to unimplemented functions. Release to Nectar.
+2013.10.10: Added return values to unimplemented functions. 
 2013.10.11: Added Emily Bird's new functions. Renamed in_dets.dat to in_det.dat
             Fixed lots of indentation errors.
-2013.10.23: Release to Nectar.
 2013.10.24: Removed 'from numpy import power'. Removed os.chdir('test/ConstructMainEffects')
-2013.10.29: Release to Nectar.
 2013.10.30: Changed format of 'in_twofis.dat'. Added check for reading in_det.dat file.
             Added check for False returns from inputs.keys(). 
-2013.11.15: Release to Nectar.
-2013.11.18: Added code to check for fraction input in det. Release to Nectar.
-2013.11.21: Added maximum time to run for. Release to Nectar.
-2013.11.27: Fixed code errors with detString. Release to Nectar.
-2014.01.07: Release to Nectar.
-2014.09.08: Release to Nectar.
+2013.11.18: Added code to check for fraction input in det. 
+2013.11.21: Added maximum time to run for. 
+2013.11.27: Fixed code errors with detString. 
 
 
 Details

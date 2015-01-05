@@ -15,24 +15,10 @@
 <a name="top" />
 <h1>Discrete Choice Experiments</h1>
 
-How (not) to set a timeout on a computation in Python:  
-http://eli.thegreenplace.net/2011/08/22/how-not-to-set-a-timeout-on-a-computation-in-python
-
-set timeout for a shell command in python
-http://howto.pui.ch/post/37471155682/set-timeout-for-a-shell-command-in-python
-
-Added subprocess32-3.2.6
-    python setup.py build
-        needs gcc so added gcc 
-Python.h: No such file or directory
-added python-devel
-
-    sudo python setup.py install
-    
 
 
 <p>Author: Mike Lake <br>
-Version of this Doc: 2014.09.08
+Version of this Doc: 2015.01.04
 </p>
 
 <pre>
@@ -71,12 +57,11 @@ Login there with LDAP (i.e. staff no) and email password.
 </p>
 
 <pre>
-1. Update version numbers for:
-   choice.py               version = '2013.10.23' 
-   choice_common.py
-   process_choices.py
+1. Update the version number for the main program: choice.py               
+   e.g. version = '2013.10.23'
 
-   The version number for all programs should all be set to the same date.
+   The version numbers for the other programs remain as-is; 
+   i.e. choice_common.py and process_choices.py
 
 2. Checkin changes and push to github.
 
@@ -139,6 +124,20 @@ which has a problem. Download 0.7.2 and install using setup.py as below.
 sympy-sympy-0.7.2$ python setup.py build
 sympy-sympy-0.7.2$ sudo python setup.py install
 </pre>
+
+<p><b>subprocess32-3.2.6</b>: TODO this was put on much later - why?
+</p>
+
+<pre>
+Added via pip install: subprocess32-3.2.6
+    (This package needs gcc so ensure gcc yum package is installed.) 
+    python setup.py build
+    Python.h: No such file or directory
+Added via yum: python-devel
+    sudo python setup.py install
+    OK  
+</pre>
+
 
 <p><a href="#top">Top</a></p>
 
@@ -627,9 +626,11 @@ has now gone.
 
 <p><a href="#top">Top</a></p>
 
-<a name="refs"/><h2>Programming References, uWSGI and nginx</h2>
+<a name="refs"/><h2>Programming References to Python, uWSGI and nginx</h2>
 
 <pre>
+<a href="http://eli.thegreenplace.net/2011/08/22/how-not-to-set-a-timeout-on-a-computation-in-python">How (not) to set a timeout on a computation in Python</a>
+<a href="http://howto.pui.ch/post/37471155682/set-timeout-for-a-shell-command-in-python">Set timeout for a shell command in python</a>
 <a href="http://monicalent.com/blog/2013/12/06/set-up-nginx-and-uwsgi/">Monica Lent: set-up-nginx-and-uwsgi</a> Good definitions here 
 <a href="http://michael.lustfield.net/nginx/bottle-uwsgi-nginx-quickstart">Bottle + UWSGI + Nginx Quickstart</a>
 <a href="http://community.webfaction.com/questions/3998/how-to-setup-a-python-bottle-application">How to serve WSGI using Apache</a>
