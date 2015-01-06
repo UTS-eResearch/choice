@@ -45,11 +45,6 @@ Don't forget to update version number below!
 
 version = '2014.10.13'
 
-# If TEST is True then the following will change:
-# - the app will run under a local fastcgi server,
-# - the temp dir will be a local one in your current directory,
-# - files in the temp dir will not be deleted at the end of the script.
-# You need to set this to False for Production on Nectar!
 
 from bottle import route, run, template, request
 from bottle import static_file
@@ -70,10 +65,14 @@ import re       # only used once in validation
 # Our own modules
 from choice_common import get_expected_io, write_errors
 
-TIMEOUT = 5 # the maximum time in seconds for a process_choices.py to run 
+TIMEOUT = 1000 # the maximum time in seconds for a process_choices.py to run 
 
 # Test for test or not. Just touch TEST.
 # and remove the file TEST to go back to production.
+# If TEST is True then the following will change:
+# - the app will run under a local fastcgi server,
+# - the temp dir will be a local one in your current directory,
+# - files in the temp dir will not be deleted at the end of the script.
 if os.path.isfile('TEST'):
     TEST = True
 else:
@@ -457,9 +456,8 @@ else:
     # This host & port must also be specified in the nginx conf file for this site. 
     # and the nginx service must be running.  
     #run(server=FlupFCGIServer, port=9000, host='localhost')
+    # Now see it at: http://localhost:9090/choice
 
     # https://groups.google.com/forum/#!topic/bottlepy/wRfgm4obLXk
-    # TODO needs to be this:
     application = bottle.app()
-    # Now see it at: http://localhost:9090/choice
 

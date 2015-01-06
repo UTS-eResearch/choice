@@ -2,13 +2,22 @@
 <head>
 <title>Discrete Choice Experiments</title>
 <style type="text/css">
-  body {bgcolor:'lightyellow';}
-  pre {font-size:120%; margin-left:2ex;}
-  h1 { font-family:Arial,Helvetica,sans-serif; font-size:160%; font-weight:bold; }
-  h2 { font-family:Arial,Helvetica,sans-serif; font-size:120%; font-weight:bold; }
-  h3 { font-family:serif; font-size:100%; font-weight:bold; text-indent:1.2ex; }
-  td { padding-left: 2ex; }
-  tt {font-size:120%; }
+    body {
+        bgcolor:'lightyellow';
+        counter-reset: h3counter;
+    }
+    pre {font-size:120%; margin-left:2ex;}
+    h1 { font-family:Arial,Helvetica,sans-serif; font-size:160%; font-weight:bold; }
+    h2 { font-family:Arial,Helvetica,sans-serif; font-size:120%; font-weight:bold; 
+        counter-reset: h2counter;
+    }
+    h3 { font-family:serif; font-size:100%; font-weight:bold; text-indent:1.2ex; }
+    h3:before {
+        content: counter(h3counter) ".\0000a0\0000a0";
+        counter-increment: h3counter;
+    }
+    td { padding-left: 2ex; }
+    tt {font-size:120%; }
 </style>
 </head>
 <body>
@@ -43,6 +52,9 @@ This was written for for Deborah Street and Leonie Burgess.
 Mike Lake wrote the choice.py and Emily Bird (from Maths) wrote the main functions in 
 process_choices.py.  
 </p>
+
+The web app is available at: 
+<a href="http://maths.science.uts.edu.au/maths/wiki/SPExpts">http://maths.science.uts.edu.au/maths/wiki/SPExpts</a>
 
 <p>Code is checked into GitHub at 
 <a href="https://codeine.research.uts.edu.au">https://codeine.research.uts.edu.au</a>.
@@ -93,6 +105,8 @@ Login there with LDAP (i.e. staff no) and email password.
    It should show the correct version number at the bottom left of the page. 
 </pre>
 
+<p><a href="#top">Top</a></p>
+
 <a name="required"/><h2>Software Required for Choice Application</h2>
 
 <p>This is installed onto a "Fedora release 19".
@@ -125,7 +139,9 @@ sympy-sympy-0.7.2$ python setup.py build
 sympy-sympy-0.7.2$ sudo python setup.py install
 </pre>
 
-<p><b>subprocess32-3.2.6</b>: TODO this was put on much later - why?
+<p><b>subprocess32-3.2.6</b>: &quot;subprocess&quot; is the native one for Pyth0n 2.7 but I have 
+installed &quot;subprocess32&quot; via &quot;pip install&quot; which is a
+backport from Python 3.0 which supports a timeout arg. 
 </p>
 
 <pre>
@@ -536,7 +552,7 @@ C:\choice_emily&gt;
 
 <a name="problems"/><h2>Problems Encountered</h2> 
 
-<h3>Need uwsgi-plugin-python</h3>
+<h3>Problem: need uwsgi-plugin-python</h3>
 
 <p>The problem was that the uwsgi process could not be started. </p>
 
@@ -560,7 +576,7 @@ os: Linux-3.10.10-200.fc19.x86_64 #1 SMP Thu Aug 29 19:05:45 UTC 2013
 Now lynx http://localhost:9090 shows OK
 </pre>
 
-<h3>nginx/python Run Problems</h3> 
+<h3>Problem: nginx/python run problems</h3> 
 
 <p>This is what you should have:</p>
 
@@ -581,7 +597,7 @@ Don't background it so you can see what the problem is.
 $ python ./choice.py   &lt;-- no &amp; to see what the problem is.
 </pre>
 
-<h3>Sympy Error</h3>
+<h3>Problem: sympy error</h3>
 
 <p>Note: Get the sympy version with "import sympy; sympy.__version__"</p>
 <pre>            Python    Sympy    Numpy

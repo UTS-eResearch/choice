@@ -111,7 +111,7 @@ from choice_common import get_expected_io, write_errors
 
 global START, MAX_TIME 
 START = datetime.now()
-MAX_TIME = 10           # Maximum time in seconds to run for.
+MAX_TIME = 1000           # Maximum time in seconds to run for.
 
 
 ###################
