@@ -131,7 +131,8 @@ function test_all {
     
     # Loop through those directories ...
     for dir in $testdirs; do
-        test_one $dir 
+        #echo $dir
+        test_one $dir
     done
 }
 

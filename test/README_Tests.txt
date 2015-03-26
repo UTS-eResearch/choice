@@ -1,20 +1,26 @@
 Test Cases
 ==========
 
+Test Name               Approx          Description
+                        Time (s) 
+---------               --------        -----------
+check_main_1              1             Check sets, main only.
+check_main_2             43             Main effects + all 2fis, no det C
+check_main_3            145             Estimating main effects only which shows nginx errors.
 
-check_main_1            Check sets, main only
-check_main_2            Larger calcaulation which will take longer. Added Jan 2015.
+check_mplusall_1         0.5            Check sets, plusall, det=1  
+check_mplusall_2         0.5            Check sets, plusall, det=blank value
+check_mplusall_3         0.5            Check sets, plusall, det=blank value
 
-check_mplusall_1        Check sets, plusall, det=1  
-check_mplusall_2        Check sets, plusall, det=blank value
-check_mplusall_3        Check sets, plusall, det=blank value
+check_mplussome_1        2              Check sets, mplussome, det=1, twofis=1,2 
 
-check_mplussome_1       Check sets, mplussome, det=1, twofis=1,2 
+construct_main_1         1  
+construct_main_2         0.5  
 
-construct_main_1
-construct_main_2        
-construct_mplusall_1
-construct_mplussome_1
+construct_mplusall_1     0.5
+
+construct_mplussome_1    2  
+
 
 Scripts
 -------
