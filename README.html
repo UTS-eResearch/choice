@@ -24,10 +24,8 @@
 <a name="top" />
 <h1>Discrete Choice Experiments</h1>
 
-
-
 <p>Author: Mike Lake <br>
-Version of this Doc: 2015.01.04
+Version of this Doc: 2015.03.23
 </p>
 
 <pre>
@@ -38,7 +36,6 @@ Version of this Doc: 2015.01.04
 <a href="#programs"/>Two Programs - choice.py and process_choices.py</a>
 <a href="#running"/>Running the Application</a>
 <a href="#tests"/>Running Regression Tests</a>
-<a href="#wsgi"/>Testing a Minimal WSGI App</a>
 <a href="#windows"/>Running under Microsoft Windows </a>
 <a href="#problems"/>Problems Encountered</a> 
 <a href="#refs"/>Programming References</a>
@@ -472,59 +469,6 @@ Note: For Mikes laptop only make sure nginx is running and not apache:
 $ ./regression_test_all.sh
 $
 </pre>
-
-<p><a href="#top">Top</a></p>
-
-<a name="wsgi"/><h2>Testing a Minimal WSGI App</h2>
-
-<p>With Python, you use the WSGI (Web Server Gateway Interface) on top of an fcgi
-or wsgi server which talks to the web server (the fcgi client). <br>
-<tt>The web client <-> the web server <-> the socket <-> uwsgi <-> Bottle Application</tt>
-</p>
-
-<p>Following:  
-<a href="http://perlmaven.com/deploying-pyton-with-uwsgi-on-ubuntu-13-10">
-Deploying Python with uWSGI and Nginx on Ubuntu 13.10</a>
-</p>
-
-<p style="margin-left:1em;">This site contains a note about including --python. 
-Without including the python plugin, if I run: <br>
-<tt>$ uwsgi --http-socket :9090 --wsgi-file app.py</tt> &nbsp; 
-I'd get the following error: <br>
-<tt>uwsgi: unrecognized option '--wsgi-file'</tt> <br>
-<tt>getopt_long() error</tt>
-</p>
-
-<p>First test hello.py -a minimal WSGI application: <br>
-<tt>$ uwsgi --http-socket :9090 --plugin python --wsgi-file hello.py</tt> <br>
-Goto: <tt>http://localhost:9090/</tt> it works OK. 
-</p>
-
-Now test choice application.
-Instead of the command line, we will now use a configuration file. <br>
-Created <tt>choice-uwsgi.ini</tt>
-
-<pre>
-[uwsgi]
-http-socket = :9090  <-- Note: this will be just socket=:9090 in production.
-plugin    = python
-wsgi-file = /home/mlake/public_html/choice/choice.py 
-process   = 3
-</pre>
-
-<p style="margin-left:1em;">Note: when we want to use a production version we
-need to replace: <br>
-<tt>http-socket=:9090</tt> with <tt>socket=:9090</tt> </p>
-
-<p>Now we can launch the uWSGI server using the following command:
-</p>
-
-<pre>
-$ uwsgi --ini choice-uwsgi.ini
-Goto: http://localhost:9090/
-</pre>
-
-The choice app displays OK. [Shut down the uWSGI server by pressing Ctrl-C.] 
 
 <p><a href="#top">Top</a></p>
 
