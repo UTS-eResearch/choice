@@ -9,13 +9,15 @@ following citation: <br>
 </p>
 
 <form id="mf" action="/choice/process/" method="post" onsubmit="return verify();"> 
-<p>
-<input type="button" value="Construct Example 1" onclick="example_1();"/> &nbsp; 
-<input type="button" value="Construct Example 2" onclick="example_2();"/> &nbsp; 
-<input type="button" value="Construct Example 3" onclick="example_3();"/> &nbsp; 
-<input type="button" value="Check Example 4"     onclick="example_4();"/> &nbsp; 
+<p>Examples: &nbsp; 
+<input type="button" value="Check Main Ex.1"     onclick="check_main_1();"/> &nbsp; 
+<input type="button" value="Construct Main Ex.1" onclick="construct_main_1();"/> &nbsp; 
+<input type="button" value="Construct Main Ex.2" onclick="construct_main_2();"/> &nbsp; 
+<input type="button" value="Construct Main + Some Ex.1" onclick="construct_mplussome_1();"/> &nbsp; 
+<input type="button" value="Construct Main + Some Ex.2" onclick="construct_mplussome_2();"/> &nbsp; 
 <input type="button" value="Clear" onclick="allclear();" /> &nbsp; 
 <a href="/choice/help">Detailed Help Page</a> 
+
 <!--
 <br>
 <input type="button" value="Test 1" onclick="test_1();"/> &nbsp; 
