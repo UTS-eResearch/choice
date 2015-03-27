@@ -1,26 +1,30 @@
 Test Cases
 ==========
 
-Test Name               Approx          Description
-                        Time (s) 
----------               --------        -----------
-check_main_1              1             Check sets, main only.
-check_main_2             43             Main effects + all 2fis, no det C
-check_main_3            145             Estimating main effects only which shows nginx errors.
+Test Name               Example     Approx          Description
+                        in Jscript  Time (s) 
+---------               -------     --------        -----------
 
-check_mplusall_1         0.5            Check sets, plusall, det=1  
-check_mplusall_2         0.5            Check sets, plusall, det=blank value
-check_mplusall_3         0.5            Check sets, plusall, det=blank value
+check_main_1            yes         1               Check sets, main only.
+check_main_2                        43              Main effects + all 2fis, no det C
+check_main_3                        145             Estimating main effects only which shows nginx errors.
+    NOT in git yet.
 
-check_mplussome_1        2              Check sets, mplussome, det=1, twofis=1,2 
+check_mplusall_1                    0.5             Check sets, plusall, det=1  
+check_mplusall_2                    0.5             Check sets, plusall, det=blank value
+check_mplusall_3                    0.5             Check sets, plusall, det=blank value
 
-construct_main_1         1  
-construct_main_2         0.5  
+check_mplussome_1                   2               Check sets, mplussome, det=1, twofis=1,2 
 
-construct_mplusall_1     0.5
+construct_main_1        yes         1  
+construct_main_2        yes         0.5  
 
-construct_mplussome_1    2  
+construct_mplussome_1   yes         2  
+construct_mplussome_2   yes         2  
 
+construct_mplusall_1                0.5
+
+what is test_1()        yes
 
 Scripts
 -------
