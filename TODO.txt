@@ -1,6 +1,23 @@
 TODO List
 =========
 
+uwsgi connect_timeout to set the gateway Timeout
+
+http://wiki.nginx.org/HttpUwsgiModule#uwsgi_read_timeout
+    uwsgi_connect_timeout <-- sets timeout period for connection with uWSGI-server.
+        It should be noted that this value can't exceed 75 seconds.
+    uwsgi_read_timeout 
+
+504 errors 
+
+Current timeout Values are:
+    /etc/nginx/nginx.conf:    
+        keepalive_timeout  75;      <-- explicit
+        uwsgi_connect_timeout  60s  <-- default
+        uwsgi_read_timeout 60s;
+        uwsgi_send_timeout 60s;
+
+
 January 2015
 ------------
 
