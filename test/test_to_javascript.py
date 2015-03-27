@@ -66,26 +66,35 @@ function %s() {
     for file in glob.glob("%s/in_*.dat" % test_dir):
         fh_in = open(file, 'r')
         contents = fh_in.read()
+
         if os.path.basename(file) == 'in_det.dat': 
-            show('id_det'); 
+            fh_out.write("    show('id_det');\n") 
             fh_out.write("    document.getElementsByName('det')[0].value = %s;\n" % contents)
+
         if os.path.basename(file) == 'in_twofis.dat': 
-            show('id_twofis');
+            fh_out.write("    show('id_twofis');\n")
             fh_out.write("    document.getElementsByName('twofis')[0].value = %s;\n" % contents)
+
         if os.path.basename(file) == 'in_gens.dat': 
+            fh_out.write("    construct_sets();\n")
             fh_out.write("    document.getElementsByName('gens')[0].value = %s;\n" % contents)
+
         if os.path.basename(file) == 'in_factors.dat': 
             fh_out.write("    document.getElementsByName('factors')[0].value = %s;\n" % contents)
+
         if os.path.basename(file) == 'in_msize.dat': 
             fh_out.write("    document.getElementsByName('msize')[0].value = %s;\n" % contents)
+
         if os.path.basename(file) == 'in_levels.dat': 
             fh_out.write("    document.getElementsByName('levels')[0].value = '%s';\n" % contents)
+
         if os.path.basename(file) == 'in_chsets.dat':
             fh_out.write("    document.getElementById('corc_chk').checked = true;\n")
             fh_out.write("    document.getElementById('corc_con').checked = false;\n")
             contents = contents.strip('\n') 
             contents = contents.replace('\n','\\n')
             fh_out.write("    document.getElementsByName('chsets')[0].value = '%s';\n" % contents)
+
         if os.path.basename(file) == 'in_tmts.dat':
             fh_out.write("    show('change'); hide('gen');\n")
             fh_out.write("    document.getElementById('corc_chk').checked = false;\n")
