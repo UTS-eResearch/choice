@@ -108,7 +108,7 @@ function test_one {
     get_operation_effects $dir
 
     # Run the program, generating output files.
-    ./process_choices.py $dir $operation $effects 
+    time ./process_choices.py $dir $operation $effects 
   
     # Check the outputs against the originals. 
     for orig in $dir/out_*.orig ; do
@@ -131,7 +131,7 @@ function test_all {
     
     # Loop through those directories ...
     for dir in $testdirs; do
-        #echo $dir
+        echo -en "\n------ $dir ------"
         test_one $dir
     done
 }
