@@ -106,13 +106,12 @@ Login there with LDAP (i.e. staff no) and email password.
 
 <a name="required"/><h2>Software Required for Choice Application</h2>
 
-<p>This is installed onto a "Fedora release 19".
-The following software is required:</p>
+<p>The following required software will be installed onto a "Fedora release 19" release. <br>
+First &quot;<tt>sudo yum update</tt>&quot; then install the following Fedora packages: </p>
 
-<p>Python 2.7.5 will already be installed. 
-</p>
+<p><b>Python 2.7.5</b>: This will already be installed. </p>
 
-<p><tt>$ sudo yum update</tt> then install the following Fedora packages: </p>
+<p><b>Various Fedora Packages</b>: </p>
 
 <pre>
 Fedora Package          Provides
@@ -162,24 +161,35 @@ Added via yum: python-devel
 The changes are documented in these files. Search for MRL strings for changes. 
 </p>
 
-<p>
-<tt>/etc/nginx/nginx.conf</tt> &lt;&lt; Changed document root, changed log format to a simpler string. <br>
-<tt>/etc/nginx/conf.d/default.conf</tt> &lt;&lt; contains hello and choice apps. <br>
-<tt>/usr/share/nginx/html/index.html</tt> Changed to just say "Nothing here." <br>
-<tt>/home/ec2-user/public_html</tt> &lt;&lt; Created public_html directory. <br>
-Changed <tt>drwx------ /home/ec2-user</tt> to <tt>drwxr-xr-x</tt> so nginx can see the public_html dir. <br>
+<pre>
+/etc/nginx/nginx.conf                   Changed document root, changed log format to a simpler string.
+/etc/nginx/conf.d/default.conf          Contains hello and choice apps. 
+/usr/share/nginx/html/index.html        Changed to just say "Nothing here." 
+/home/ec2-user/public_html              Created public_html directory. 
 
+Changed permissions of /home/ec2-user so nginx can see the public_html dir. 
+    from: drwx------ 
+    to:   drwxr-xr-x                      
+</pre>
+
+Check nginx configuration:
+
+<pre>
 etc/$ sudo /usr/sbin/nginx -t
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 etc/$ 
+</pre>
 
+Change ownership and mode of choice python files:
 
-chown ec2-user:nginx *.py
-chmod ug+x *.py
-</p>
+<pre>
+choice$ chown ec2-user:nginx *.py
+choice$ chmod ug+x *.py
+</pre>
 
 Make sure that nginx starts at boot time:
+
 <pre>
 $ sudo systemctl enable nginx.service
 ln -s '/usr/lib/systemd/system/nginx.service' '/etc/systemd/system/multi-user.target.wants/nginx.service'
