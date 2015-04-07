@@ -122,6 +122,8 @@ uwsgi-plugin-python     only provides /usr/lib64/uwsgi/python_plugin.so
                         pulls in uwsgi and uwsgi-plugin-common as a dependency
 uwsgi                   only provides /usr/sbin/uwsgi
 numpy                   provides numerical array maths
+gcc                     required for a pip install of subprocess32-3.2.6
+python-devel            required for a pip install of subprocess32-3.2.6
 </pre>
 
 <p><b>sympy</b>: The other thing we need is a python package called sympy from http://sympy.org. 
@@ -135,21 +137,23 @@ sympy-sympy-0.7.2$ python setup.py build
 sympy-sympy-0.7.2$ sudo python setup.py install
 </pre>
 
-<p><b>subprocess32-3.2.6</b>: &quot;subprocess&quot; is the native one for Pyth0n 2.7 but I have 
-installed &quot;subprocess32&quot; via &quot;pip install&quot; which is a
+<p><b>subprocess32-3.2.6</b>: &quot;subprocess&quot; is the native one for Python 2.7 but I have 
+installed &quot;subprocess32&quot; (via &quot;pip install&quot;) which is a
 backport from Python 3.0 which supports a timeout arg. 
 </p>
 
-<pre>
 Added via pip install: subprocess32-3.2.6
-    (This package needs gcc so ensure gcc yum package is installed.) 
+
+<pre>
     python setup.py build
-    Python.h: No such file or directory
-Added via yum: python-devel
     sudo python setup.py install
     OK  
 </pre>
 
+<p>Note: if you have not installed python-devel via yum then when you do the
+"python setup.py build" step you will get an error "Python.h: No such file or directory".
+This package also needs gcc so ensure gcc yum package is installed.
+</p>
 
 <p><a href="#top">Top</a></p>
 
