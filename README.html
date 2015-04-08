@@ -510,6 +510,84 @@ C:\choice_emily&gt;
 
 <a name="problems"/><h2>Problems Encountered</h2> 
 
+<h3>Problem: 504 Gateway Time-out - April 2015</h3>
+
+
+2015.03.20                         145              Estimating main effects only.
+This shows an nginx error (see screenshot) which says:
+"The page you are looking for is temporarily unavailable".
+
+1. Test via command line: 
+
+choice/$ ./process_choices.py $dir $operation $effects
+         time ./process_choices.py test/2015.03.20 check main 
+
+Time taken: 2.5 minutes
+Creates: out_bmat.dat   OK
+         out_cinv.dat   OK
+         out_cmat.dat   OK
+         out_correln.dat    OK
+         out_lmat.dat   OK
+         out_msg.dat    OK
+
+2. Test via http://localhost:8080/:
+   Make sure TEST exists.
+
+Enter matrices then...
+[submit]
+ 
+temp/$ ps ax | grep python
+ 1010 ?        S      0:00 /usr/bin/python /usr/bin/denyhosts.py --daemon --config=/etc/denyhosts.conf
+29614 pts/0    S+     0:00 python ./choice.py
+29615 pts/0    Sl+    0:01 /bin/python ./choice.py
+30337 pts/0    R+     0:18 python ./process_choices.py temp check main
+30394 ?        Sl     0:01 /usr/bin/python -Es /usr/sbin/setroubleshootd -f
+30856 pts/1    S+     0:00 grep --color=auto python
+temp/$ 
+
+All works fine. It just times out with nginx.
+
+PS. Saved the output files to thne test directory test/2015.03.20
+
+3. Test via nginx:
+   Make sure TEST does NOT exist.
+
+$ uwsgi -- /etc/uwsgi/vassals/choice.ini
+
+User sees this: 
+    504 Gateway Time-out
+
+Server nginx error logs shows this:
+  2015/04/07 14:56:30 [error] 4818#0: *13 upstream timed out (110: Connection timed out) 
+  while reading response header from upstream, client: 127.0.0.1,
+  server: localhost, request: "POST /choice/process/ HTTP/1.1", upstream:
+  "uwsgi://127.0.0.1:9001", host: "localhost", referrer: "http://localhost/choice/"
+
+This occurs at 60 seconds, even if I have in /etc/nginx.conf 
+
+    # These timeouts don't help in preventing "504 Gateway Time-out"
+    #keepalive_timeout  65;
+    #keepalive_timeout 200;
+    #uwsgi_connect_timeout 200;
+    #uwsgi_send_timeout 200; 
+
+    # This timeout is the one required!
+    uwsgi_read_timeout 200; 
+    
+Now ....
+$ uwsgi -- /etc/uwsgi/vassals/choice.ini
+...
+spawned uWSGI worker 1 (and the only) (pid: 10925, cores: 1)
+[pid: 10925|app: 0|req: 1/1] 127.0.0.1 () {44 vars in 747 bytes} [Tue Apr  7 15:28:00 2015] POST /choice/process/ => generated 6536801 bytes in 148932 msecs (HTTP/1.1 200) 2 headers in 84 bytes (2 switches on core 0)
+
+and 
+
+No nginx timeout !!!! Good
+
+See the TODO.txt for timeout information.
+         
+
+
 <h3>Problem: need uwsgi-plugin-python</h3>
 
 <p>The problem was that the uwsgi process could not be started. </p>
