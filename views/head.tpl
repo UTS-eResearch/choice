@@ -5,10 +5,10 @@
 
 <head>
 	<title>Discrete Choice Experiments</title>
-	<script type="text/javascript" src="/static/misc.js"></script>
-	<script type="text/javascript" src="/static/validate.js"></script>
-	<script type="text/javascript" src="/static/examples.js"></script> 
-	<link   type="text/css" rel="stylesheet" href="/static/styles.css" />
+	<script type="text/javascript" src="/static_choice/misc.js"></script>
+	<script type="text/javascript" src="/static_choice/validate.js"></script>
+	<script type="text/javascript" src="/static_choice/examples.js"></script> 
+	<link   type="text/css" rel="stylesheet" href="/static_choice/styles.css" />
 </head>
 <body>
 <a name="top" />

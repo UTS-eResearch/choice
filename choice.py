@@ -311,11 +311,11 @@ def inputs_validation(inputs):
 # A route decorator @route() binds a piece of code to a URL path.
 
 # Serve static files such as CSS, images and javascript.
-@route('/static/<filename:path>')
+@route('/static_choice/<filename:path>')
 #@route('/static/:filename#.*#')
 #@route('/static/')
 def static(filename):
-    return static_file(filename, root='./static/')
+    return static_file(filename, root='./static_choice/')
 
 
 # Serve a help page.
