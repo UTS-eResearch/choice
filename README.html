@@ -9,9 +9,9 @@
     pre {font-size:120%; margin-left:2ex;}
     h1 { font-family:Arial,Helvetica,sans-serif; font-size:160%; font-weight:bold; }
     h2 { font-family:Arial,Helvetica,sans-serif; font-size:120%; font-weight:bold; 
-        counter-reset: h2counter;
+        counter-reset: h3counter;
     }
-    h3 { font-family:serif; font-size:100%; font-weight:bold; text-indent:1.2ex; }
+    h3 { font-family:sans-serif; font-size:100%; font-weight:bold; text-indent:1.2ex; }
     h3:before {
         content: counter(h3counter) ".\0000a0\0000a0";
         counter-increment: h3counter;
@@ -106,27 +106,29 @@ Login there with LDAP (i.e. staff no) and email password.
 
 <a name="required"/><h2>Software Required for Choice Application</h2>
 
-<p>The following required software will be installed onto a "Fedora release 19" release. <br>
-First &quot;<tt>sudo yum update</tt>&quot; then install the following Fedora packages: </p>
+<p>The following required software will be installed onto a "Fedora release 19" release. </p>
 
-<p><b>Python 2.7.5</b>: This will already be installed. </p>
+<h3>Fedora Packages</h3>
 
-<p><b>Various Fedora Packages</b>: </p>
+<p>First &quot;<tt>sudo yum update</tt>&quot; then install the following Fedora packages: </p>
 
 <pre>
 Fedora Package          Provides
 --------------          --------
+python                  Python 2.7.5 will already be installed.
 python-bottle           provides micro web framework
+python-devel            required for a pip install of subprocess32-3.2.6
+numpy                   provides numerical array maths
+gcc                     required for a pip install of subprocess32-3.2.6
 nginx                   provides web server
 uwsgi-plugin-python     only provides /usr/lib64/uwsgi/python_plugin.so
                         pulls in uwsgi and uwsgi-plugin-common as a dependency
 uwsgi                   only provides /usr/sbin/uwsgi
-numpy                   provides numerical array maths
-gcc                     required for a pip install of subprocess32-3.2.6
-python-devel            required for a pip install of subprocess32-3.2.6
 </pre>
 
-<p><b>sympy</b>: The other thing we need is a python package called sympy from http://sympy.org. 
+<h3>Python Packages</h3>
+
+<p><b>sympy</b>: The python package called sympy is available from from http://sympy.org. 
 This provides symbolic maths for python. From that site download and install sympy-0.7.2.tar.gz <br>
 Note: Do not install sympy from the yum repos. That will install version 0.7.3
 which has a problem. Download 0.7.2 and install using setup.py as below.
@@ -145,9 +147,9 @@ backport from Python 3.0 which supports a timeout arg.
 Added via pip install: subprocess32-3.2.6
 
 <pre>
-    python setup.py build
-    sudo python setup.py install
-    OK  
+$ python setup.py build
+$ sudo python setup.py install
+OK  
 </pre>
 
 <p>Note: if you have not installed python-devel via yum then when you do the
@@ -170,8 +172,11 @@ The changes are documented in these files. Search for MRL strings for changes.
 /etc/nginx/conf.d/default.conf          Contains hello and choice apps. 
 /usr/share/nginx/html/index.html        Changed to just say "Nothing here." 
 /home/ec2-user/public_html              Created public_html directory. 
+</pre>
 
-Changed permissions of /home/ec2-user so nginx can see the public_html dir. 
+Changed permissions of /home/ec2-user/ so nginx can see the public_html dir. 
+
+<pre>
     from: drwx------ 
     to:   drwxr-xr-x                      
 </pre>
@@ -238,9 +243,9 @@ $ ps ax | grep uwsgi
 11069 ?        S      0:06 /usr/sbin/uwsgi --ini /etc/uwsgi.ini
 </pre>
 
-hello/$ sudo netstat -tlpn | grep :9000
+This is what we should see:
 
-<pre> THIS IS WHAT WE SHOULD SEE
+<pre> 
 etc/$ sudo netstat -tlpn | grep uwsgi
 tcp   0    0 127.0.0.1:9000   0.0.0.0:*   LISTEN   8509/uwsgi          
 tcp   0    0 127.0.0.1:9001   0.0.0.0:*   LISTEN   8507/uwsgi          
@@ -248,52 +253,8 @@ etc/$
 
 </pre>
 
-
-Error:
-<pre>
-2014/04/29 13:10:04 [error] 10640#0: *9 connect() failed (111: Connection refused) while connecting to upstream, client: 113.197.9.114, server: , request: "GET /hello/ HTTP/1.1", upstream: "uwsgi://127.0.0.1:9090", host: "130.56.248.113"
-</pre>
-
-<p>This error Means nginx is trying to pass along the app to port 9090 but nothing seems to be listening there. 
-But we do seem to have uwsgi listening OK - see below: <br>
-<tt>10848 ?        Ss     0:00 /usr/sbin/uwsgi --ini /etc/uwsgi.ini </tt><br>
-<tt>10850 ?        S      0:00 /usr/sbin/uwsgi --ini /etc/uwsgi.ini </tt>
-</p>
-
-<pre>
-----------------------------------------------------
-~/$ sudo /usr/sbin/uwsgi --ini /etc/uwsgi.ini 
-[uWSGI] getting INI configuration from /etc/uwsgi.ini
-setting capability setgid [6]
-setting capability setuid [7]
-*** Starting uWSGI 1.9.19 (64bit) on [Thu May  1 14:19:04 2014] ***
-compiled with version: 4.8.2 20131017 (Red Hat 4.8.2-1) on 12 November 2013 18:02:19
-os: Linux-3.13.9-100.fc19.x86_64 #1 SMP Fri Apr 4 00:51:59 UTC 2014
-nodename: uts-choice.novalocal
-machine: x86_64
-clock source: unix
-pcre jit disabled
-detected number of CPU cores: 1
-current working directory: /home/ec2-user
-writing pidfile to /run/uwsgi/uwsgi.pid
-detected binary path: /usr/sbin/uwsgi
-setgid() to 996
-setuid() to 996
-*** WARNING: you are running uWSGI without its master process manager ***
-your processes number limit is 1024
-your memory page size is 4096 bytes
-detected max file descriptor number: 1024
-*** starting uWSGI Emperor ***
-[emperor-tyrant] invalid permissions for vassal choice.ini
-[emperor-tyrant] invalid permissions for vassal hello.ini
-[emperor-tyrant] invalid permissions for vassal choice.ini
-[emperor-tyrant] invalid permissions for vassal hello.ini
-^C[emperor] *** RAGNAROK EVOKED ***
-~/$ 
-------------------------------------------------------------------
-</pre>
-
 Make sure uWSGI starts at boot time:
+
 <pre>
 $ sudo systemctl enable uwsgi.service
 ln -s '/usr/lib/systemd/system/uwsgi.service' '/etc/systemd/system/multi-user.target.wants/uwsgi.service'
@@ -318,9 +279,9 @@ systemctl status nginx.service
 systemctl list-unit-files
 </pre>
 
-<p>(If you use the older SysV system command: <tt>$ service uwsgi status</tt> it will 
+<p>If you use the older SysV system command: <tt>$ service uwsgi status</tt> it will 
 redirect it with a message 
-&quot;<tt>Redirecting to /bin/systemctl status uwsgi.service</tt>&quot;)
+&quot;<tt>Redirecting to /bin/systemctl status uwsgi.service</tt>&quot;
 </p>
 
 
@@ -510,10 +471,55 @@ C:\choice_emily&gt;
 
 <a name="problems"/><h2>Problems Encountered</h2> 
 
+<h3>Problem: Connection refused while connecting to upstream.</h3>
+
+<p>Error is:</p>
+
+<pre>
+2014/04/29 13:10:04 [error] 10640#0: *9 connect() failed (111: Connection refused) while connecting to upstream, 
+client: 113.197.9.114, server: , request: "GET /hello/ HTTP/1.1", upstream: "uwsgi://127.0.0.1:9090", host: "130.56.248.113"
+</pre>
+
+<p>This error Means nginx is trying to pass along the app to port 9090 but nothing seems to be listening there. 
+But we do seem to have uwsgi listening OK - see below: <br>
+<tt>10848 ?        Ss     0:00 /usr/sbin/uwsgi --ini /etc/uwsgi.ini </tt><br>
+<tt>10850 ?        S      0:00 /usr/sbin/uwsgi --ini /etc/uwsgi.ini </tt>
+</p>
+
+<h3>Problem: Starting uwsgi </h3>
+
+<pre>
+$ sudo /usr/sbin/uwsgi --ini /etc/uwsgi.ini 
+[uWSGI] getting INI configuration from /etc/uwsgi.ini
+setting capability setgid [6]
+setting capability setuid [7]
+*** Starting uWSGI 1.9.19 (64bit) on [Thu May  1 14:19:04 2014] ***
+compiled with version: 4.8.2 20131017 (Red Hat 4.8.2-1) on 12 November 2013 18:02:19
+os: Linux-3.13.9-100.fc19.x86_64 #1 SMP Fri Apr 4 00:51:59 UTC 2014
+nodename: uts-choice.novalocal
+machine: x86_64
+detected number of CPU cores: 1
+current working directory: /home/ec2-user
+writing pidfile to /run/uwsgi/uwsgi.pid
+detected binary path: /usr/sbin/uwsgi
+setgid() to 996
+setuid() to 996
+*** WARNING: you are running uWSGI without its master process manager ***
+your processes number limit is 1024
+*** starting uWSGI Emperor ***
+[emperor-tyrant] invalid permissions for vassal choice.ini
+[emperor-tyrant] invalid permissions for vassal hello.ini
+[emperor-tyrant] invalid permissions for vassal choice.ini
+[emperor-tyrant] invalid permissions for vassal hello.ini
+^C[emperor] *** RAGNAROK EVOKED ***
+$ 
+</pre>
+
+
 <h3>Problem: 504 Gateway Time-out - April 2015</h3>
 
-
-2015.03.20                         145              Estimating main effects only.
+<pre>
+2015.03.20  Estimating main effects only.
 This shows an nginx error (see screenshot) which says:
 "The page you are looking for is temporarily unavailable".
 
@@ -578,14 +584,15 @@ Now ....
 $ uwsgi -- /etc/uwsgi/vassals/choice.ini
 ...
 spawned uWSGI worker 1 (and the only) (pid: 10925, cores: 1)
-[pid: 10925|app: 0|req: 1/1] 127.0.0.1 () {44 vars in 747 bytes} [Tue Apr  7 15:28:00 2015] POST /choice/process/ => generated 6536801 bytes in 148932 msecs (HTTP/1.1 200) 2 headers in 84 bytes (2 switches on core 0)
+[pid: 10925|app: 0|req: 1/1] 127.0.0.1 () {44 vars in 747 bytes} [Tue Apr  7 15:28:00 2015] POST /choice/process/ => 
+generated 6536801 bytes in 148932 msecs (HTTP/1.1 200) 2 headers in 84 bytes (2 switches on core 0)
 
 and 
 
 No nginx timeout !!!! Good
 
 See the TODO.txt for timeout information.
-         
+</pre>
 
 
 <h3>Problem: need uwsgi-plugin-python</h3>
@@ -612,6 +619,7 @@ os: Linux-3.10.10-200.fc19.x86_64 #1 SMP Thu Aug 29 19:05:45 UTC 2013
 Now lynx http://localhost:9090 shows OK
 </pre>
 
+
 <h3>Problem: nginx/python run problems</h3> 
 
 <p>This is what you should have:</p>
@@ -632,6 +640,7 @@ Don't background it so you can see what the problem is.
 <pre>
 $ python ./choice.py   &lt;-- no &amp; to see what the problem is.
 </pre>
+
 
 <h3>Problem: sympy error</h3>
 
@@ -672,8 +681,7 @@ Matrix([
 </pre>
 
 <p>Solved: Removed the yum package sympy (0.7.3) and installed sympy 0.7.2 from 
-the tarball source package sympy-sympy-0.7.2.tar. The problem 
-has now gone. 
+the tarball source package sympy-sympy-0.7.2.tar. The problem has now gone. 
 </p>
 
 <p><a href="#top">Top</a></p>
