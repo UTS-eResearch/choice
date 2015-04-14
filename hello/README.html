@@ -1,7 +1,11 @@
 <html>
 <head>
 <style>
-tt { font-size:130%;}
+h1 { font-family: sans-serif; }
+h2 { font-family: sans-serif; }
+code tt { font-size: 130%;}
+pre {padding-left: 3ex; }
+div.note {color:red; display:inline;}
 </style>
 </head>
 <body>
@@ -36,6 +40,19 @@ def application(env, start_response):
     return html
 </pre>
 
+<p><b>An nginx Conf File:</b> /etc/nginx/conf.d/hello.conf</p>
+
+<pre>
+# hello test python app
+server {
+    location /hello/ {
+        include uwsgi_params;
+        uwsgi_pass 127.0.0.1:9090;
+    }
+}
+</pre>
+
+
 <p><b>The uWSGI file:</b> hello-uwsgi.ini</p>
 
 <pre>
@@ -55,30 +72,17 @@ process   = 3
 <tt>http-socket=:9090</tt> with <tt>socket=:9090</tt> </p>
 
 
-<p><b>An nginx Conf File:</b> /etc/nginx/conf.d/hello.conf</p>
-
-<pre>
-# hello test python app
-server {
-    location /hello/ {
-        include uwsgi_params;
-        uwsgi_pass 127.0.0.1:9090;
-    }
-}
-</pre>
-
-
 
 <h2>Running the Application</h2> 
 
 The python application <tt>hello.py</tt> can be either run from itself or from Nginx web server.
 
-<h3>Running from itself</h3> 
+<h3>1. Running from itself</h3> 
 
 <p>To run it from itself start it like this: 
 
 <pre>
-uwsgi --http :9090 --plugin python --wsgi-file path/to/project/hello.py
+uwsgi --http :9090 --plugin python --wsgi-file ./hello.py
 </pre>
 
 View it in a web browser at:  
@@ -88,8 +92,17 @@ View it in a web browser at:
 </p>
 
 <p>Instead of specifying stuff on the command line you can use a WSGI ini file.
-Have a look at <tt>hello-uwsgi.ini</tt>. Using an ini file you run it like this:
 </p>
+
+<pre>
+[uwsgi]
+<div class=note>http-socket = :9090</div>
+plugin      = python
+wsgi-file   = /home/mlake/git/choice/hello/hello.py
+process     = 3
+</pre>
+
+Using an ini file you run it like this:
 
 <pre>
 $ uwsgi --ini hello-uwsgi.ini
@@ -97,24 +110,49 @@ $ uwsgi --ini hello-uwsgi.ini
 
 <p>It is now viewable at the same URls as above. </p>
 
-<h3>Using Nginx</h3> 
-
-$ sudo service uwsgi start
-$ sudo service nginx restart
+<h3>2. Runnning using nginx</h3> 
 
 Replace http-socket by socket in hello-uwsgi.ini file.
+
+<pre>
+[uwsgi]
+<div class=note>socket = :9090</div>
+plugin      = python
+wsgi-file   = /home/mlake/git/choice/hello/hello.py
+process     = 3
+</pre>
+
+Now run  it via the ini file as before.
+
+<pre>
+$ uwsgi --ini hello-uwsgi.ini
+</pre>
+
+View it at <a href="http://localhost/hello">http://localhost/hello</a> (Note, no port number now.)
+
+<hr>
 
 <p>Have a look at the nginx configuration file <tt>hello.conf</tt>. 
 This would be placed in <tt>/etc/nginx/conf.d/</tt>
 </p>
  
-View it at <a href="http://localhost/hello">http://localhost/hello</a> (Note, no port number now.)
 
 <p>Remember after making changes to an nginx conf file you will need to:
 <p>
 <pre>
 $ sudo service nginx reload
 </pre>
+
+
+<h2>Sockets, sockets, sockets </h2>
+
+<pre>
+--socket            bind to the specified UNIX/TCP socket using default protocol
+--fastcgi-socket    bind to the specified UNIX/TCP socket using FastCGI protocol
+--http-socket       bind to the specified UNIX/TCP socket using HTTP protocol
+--uwsgi-socket      bind to the specified UNIX/TCP socket using uwsgi protocol
+</pre>
+
 
 <h2>Problems</h2>
 
@@ -154,8 +192,43 @@ server: , request: "GET /hello/ HTTP/1.1", upstream:
 
 <h2>Installation Mess</h2>
 
+ 
 <pre>
-hello/$ sudo pip install uwsgi
+$ /usr/sbin/uwsgi --version
+    1.9.19              this is from yum package uwsgi-1.9.19-1.fc20.x86_64
+
+$ /usr/bin/uwsgi --version
+    2.0.10              this is from pip install uwsgi
+ 
+$ /bin/uwsgi --version
+    2.0.10
+</pre>
+
+To remove uwsgi to do the tests below do this:
+
+<pre>
+$ sudo yum remove uwsgi
+Removing:
+ uwsgi                         1.9.19-1.fc20   @fedora   1.7 M
+Removing for dependencies:
+ uwsgi-plugin-common           1.9.19-1.fc20   @fedora    67 k
+ uwsgi-plugin-python           1.9.19-1.fc20   @fedora   175 k
+</pre>
+
+
+<pre>
+$ pip uninstall uWSGI
+Uninstalling uWSGI:
+  /usr/lib/python2.7/site-packages/uWSGI-2.0.10-py2.7.egg-info
+  /usr/lib/python2.7/site-packages/uwsgidecorators.py
+  /usr/lib/python2.7/site-packages/uwsgidecorators.pyc
+Proceed (y/n)? 
+</pre>
+
+<h3>Installing via pip </h3>
+
+<pre>
+$ sudo pip install uwsgi
 [sudo] password for mlake: 
 Downloading/unpacking uwsgi
   Downloading uwsgi-2.0.10.tar.gz (779kB): 779kB downloaded
@@ -197,18 +270,10 @@ Installing collected packages: uwsgi
     
 Successfully installed uwsgi
 Cleaning up...
-hello/$ 
-hello/$ 
+$ 
 
 
-hello/$ /usr/sbin/uwsgi --version
-1.9.19                           this is from uwsgi-1.9.19-1.fc20.x86_64
-hello/$ /usr/bin/uwsgi --version
-2.0.10                          this is from pip install uwsgi
-hello/$ 
-
-
-hello/$ sudo find /usr/ -newer crap 
+$ sudo find /usr/ -newer crap 
 /usr/bin
 /usr/bin/uwsgi
 /usr/lib/python2.7/site-packages
@@ -220,27 +285,15 @@ hello/$ sudo find /usr/ -newer crap
 /usr/lib/python2.7/site-packages/uWSGI-2.0.10-py2.7.egg-info/top_level.txt
 /usr/lib/python2.7/site-packages/uWSGI-2.0.10-py2.7.egg-info/installed-files.txt
 /usr/lib/python2.7/site-packages/uwsgidecorators.pyc
-hello/$ 
+$ 
 
 
-uwsgi/$ pip uninstall uWSGI
-Uninstalling uWSGI:
-  /usr/lib/python2.7/site-packages/uWSGI-2.0.10-py2.7.egg-info
-  /usr/lib/python2.7/site-packages/uwsgidecorators.py
-  /usr/lib/python2.7/site-packages/uwsgidecorators.pyc
-Proceed (y/n)? 
+</pre>
 
 
-----------------------------------------------------------------------
+<h3>Installing via yum Packahe</h3>
 
-
-$ sudo yum remove uwsgi
-Removing:
- uwsgi                         1.9.19-1.fc20   @fedora   1.7 M
-Removing for dependencies:
- uwsgi-plugin-common           1.9.19-1.fc20   @fedora    67 k
- uwsgi-plugin-python           1.9.19-1.fc20   @fedora   175 k
-
+<pre>
 
 Installing:
  uwsgi-plugin-python          1.9.19-1.fc20                    fedora                    63 k
@@ -252,8 +305,7 @@ Installing for dependencies:
 Installing:
  uwsgi                      x86_64                      1.9.19-1.fc20                         fedora 
 
-
-hello/$ sudo find /usr/ -newer crap 
+$ sudo find /usr/ -newer crap 
 /usr/sbin
 /usr/lib/systemd/system
 /usr/lib/systemd/system/anaconda.target.wants
@@ -269,7 +321,7 @@ hello/$ sudo find /usr/ -newer crap
 /usr/share/doc/uwsgi/docs/tutorials
 /usr/share/doc/uwsgi/docs/_options
 /usr/share/doc/uwsgi/docs/tips_and_tricks
-hello/$ 
+$ 
 
 
 Installing:
@@ -278,7 +330,7 @@ Installing for dependencies:
  uwsgi-plugin-common                   x86_64                   1.9.19-1.fc20                    fedora                    29 k
 
 
-hello/$ sudo find /usr/ -newer crap 
+$ sudo find /usr/ -newer crap 
 /usr/lib64
 /usr/lib64/uwsgi
 
