@@ -12,6 +12,9 @@ check_main_3                       145              Check sets, Main only but lo
     This was used to show an nginx "504 Gateway Timeout" which says:
     "The page you are looking for is temporarily unavailable".
 
+check_main_4                       500              Check sets, long run time. 
+                                                    See email: Emily Bird, 30th April 2015
+
 check_mplusall_1                    0.5             Check sets, plusall, det=1  
 check_mplusall_2                    0.5             Check sets, plusall, det=blank value
 check_mplusall_3                    0.5             Check sets, plusall, det=blank value
