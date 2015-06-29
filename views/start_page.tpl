@@ -20,10 +20,10 @@ following citation: <br>
 
 <!--
 <br>
-<input type="button" value="Test 1" onclick="test_1();"/> &nbsp; 
+Tests: <input type="button" value="Test 1" onclick="test_1();"/> &nbsp; 
+</p>
 -->
 
-</p>
 <p>
 <input type="submit"/> 
 </p>

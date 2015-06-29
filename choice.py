@@ -65,7 +65,7 @@ import re       # only used once in validation
 # Our own modules
 from choice_common import get_expected_io, write_errors
 
-TIMEOUT = 1000 # the maximum time in seconds for a process_choices.py to run 
+TIMEOUT = 300 # the maximum time in seconds for a process_choices.py to run 
 
 # Test for test or not. Just touch TEST.
 # and remove the file TEST to go back to production.
@@ -323,6 +323,14 @@ def static(filename):
 @route('/choice/help/')
 def help():
     return template('help')
+
+
+# This is not used.
+@route('/choice/e504')
+@route('/choice/e504/')
+def error504():
+    now = datetime.datetime.now().strftime('%y.%m.%d   %I:%M:%S %P')
+    return template('error_page', errors='A timeout occurred.', now=now)
 
 
 # Serve a simple test page.
