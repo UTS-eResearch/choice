@@ -116,14 +116,24 @@ Login there with LDAP (i.e. staff no) and email password.
 Fedora Package          Provides
 --------------          --------
 python                  Python 2.7.5 will already be installed.
-python-bottle           provides micro web framework
-python-devel            required for a pip install of subprocess32-3.2.6
-numpy                   provides numerical array maths
-gcc                     required for a pip install of subprocess32-3.2.6
-nginx                   provides web server
-uwsgi-plugin-python     only provides /usr/lib64/uwsgi/python_plugin.so
-                        pulls in uwsgi and uwsgi-plugin-common as a dependency
-uwsgi                   only provides /usr/sbin/uwsgi
+python-bottle           Provides micro web framework
+python-devel            Required for a pip install of subprocess32-3.2.6
+numpy                   Provides numerical array maths
+gcc                     Required for a pip install of subprocess32-3.2.6
+nginx                   Provides web server
+uwsgi                   Provides /usr/sbin/uwsgi and other files in /etc/ and /usr/share/doc/uwsgi
+uwsgi-plugin-python     Only provides /usr/lib64/uwsgi/python_plugin.so
+uwsgi-plugin-common     Pulled in as a dependeny of uwsgi-plugin-python 
+</pre>
+
+Note: on my laptop I have installed:
+<pre>
+mod_wsgi &lt;-- this is for Apache
+    /etc/httpd/conf.modules.d/10-wsgi.conf
+    /usr/lib64/httpd/modules/mod_wsgi.so
+    /usr/share/doc/mod_wsgi
+    /usr/share/doc/mod_wsgi/LICENCE
+    /usr/share/doc/mod_wsgi/README
 </pre>
 
 <h3>Python Packages</h3>
@@ -159,6 +169,7 @@ This package also needs gcc so ensure gcc yum package is installed.
 
 <p><a href="#top">Top</a></p>
 
+
 <a name="setup"/><h2>System Setup at Nectar</h2>
 
 <h3>Nginx Setup at Nectar</h3>
@@ -184,10 +195,10 @@ Changed permissions of /home/ec2-user/ so nginx can see the public_html dir.
 Check nginx configuration:
 
 <pre>
-etc/$ sudo /usr/sbin/nginx -t
+$ sudo /usr/sbin/nginx -t
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
-etc/$ 
+$ 
 </pre>
 
 Change ownership and mode of choice python files:
@@ -205,10 +216,21 @@ ln -s '/usr/lib/systemd/system/nginx.service' '/etc/systemd/system/multi-user.ta
 $ 
 </pre>
 
+<pre>
 TODO deployment: nginx+uwsgi
+
 TODO nohup python app.py &amp; - run in background with ability to logout from console.
 
-<h3>uWSGI Setup at Nectar</h3> TODO THIS HAS NOW CHANGED !!!
+In /etc/nginx/nginx.conf
+# TODO logs outside of http or server do ???
+#access_log  /var/log/nginx/access.log  main;
+#error_log  /var/log/nginx/error.log;
+#error_log  /var/log/nginx/error.log  notice;
+#error_log  /var/log/nginx/error.log  info;
+</pre>
+
+
+<h3>uWSGI Setup at Nectar</h3> 
 
 <p>Package uwsgi will contain /usr/sbin/uwsgi and some doc files. <br>
 <tt>$ rpmquery -ql uwsgi | grep -v doc</tt>
@@ -222,8 +244,8 @@ TODO nohup python app.py &amp; - run in background with ability to logout from c
 /usr/sbin/uwsgi
 </pre>
 
-This is what uwsgi.ini should contain:
- 
+File: /etc/uwsgi.ini 
+<blockquote>
 <pre>
 [uwsgi]
 uid = uwsgi  &lt;-- drops privs from root to these after starting. TODO uwsgi or nginx
@@ -231,35 +253,93 @@ gid = uwsgi
 pidfile = /run/uwsgi/uwsgi.pid
 emperor = /etc/uwsgi.d
 stats = /run/uwsgi/stats.sock
-emperor-tyrant = true
+emperor-tyrant = false
 cap = setgid,setuid
 </pre>
+</blockquote>
 
-Check uwsgi is running:
 
+File: /etc/uwsgi.d/choice.ini
+<blockquote>
 <pre>
-$ ps ax | grep uwsgi
-11067 ?        Ss     0:04 /usr/sbin/uwsgi --ini /etc/uwsgi.ini
-11069 ?        S      0:06 /usr/sbin/uwsgi --ini /etc/uwsgi.ini
+[uwsgi]
+uid = nginx
+gid = nginx
+socket = 127.0.0.1:9000
+plugin = python
+wsgi-file = /home/ec2-user/public_html/choice/choice.py 
+chdir = /home/ec2-user/public_html/choice/
+process = 3
 </pre>
+</blockquote>
+ 
+File: /etc/uwsgi.d/hello.ini 
+<blockquote>
+<pre>
+[uwsgi]
+uid = nginx
+gid = nginx
+socket = 127.0.0.1:9090
+plugin = python
+wsgi-file = /home/ec2-user/public_html/hello/hello.py
+process = 1
+</pre>
+</blockquote>
 
 This is what we should see:
 
-<pre> 
-etc/$ sudo netstat -tlpn | grep uwsgi
-tcp   0    0 127.0.0.1:9000   0.0.0.0:*   LISTEN   8509/uwsgi          
-tcp   0    0 127.0.0.1:9001   0.0.0.0:*   LISTEN   8507/uwsgi          
-etc/$ 
+uwsgi is running:
+
+<pre>
+$ ps ax | grep uwsgi
+  325 ?        Ss     1:11 /usr/sbin/uwsgi --ini /etc/uwsgi.ini
+  341 ?        S      0:43 /usr/sbin/uwsgi --ini choice.ini
+  343 ?        S      0:43 /usr/sbin/uwsgi --ini hello.ini
+  381 ?        S      0:00 /usr/sbin/uwsgi --ini hello.ini
+  407 ?        S      0:01 /usr/sbin/uwsgi --ini choice.ini
+$ 
+
+~/$ ps axjf | grep wsgi
+    1   325   325   325 ?           -1 Ss     996   1:11 /usr/sbin/uwsgi --ini /etc/uwsgi.ini
+  325   341   325   325 ?           -1 S      996   0:43  \_ /usr/sbin/uwsgi --ini choice.ini
+  341   407   325   325 ?           -1 S      996   0:01  |   \_ /usr/sbin/uwsgi --ini choice.ini
+  325   343   325   325 ?           -1 S      996   0:43  \_ /usr/sbin/uwsgi --ini hello.ini
+  343   381   325   325 ?           -1 S      996   0:00      \_ /usr/sbin/uwsgi --ini hello.ini
+~/$ 
+</pre>
+
+<pre>
+$ sudo netstat -tlpn | grep uwsgi
+tcp   0    0 127.0.0.1:9090   0.0.0.0:*   LISTEN   343/uwsgi           
+tcp   0    0 127.0.0.1:9000   0.0.0.0:*   LISTEN   341/uwsgi           
+<strike>tcp   0    0 127.0.0.1:9000   0.0.0.0:*   LISTEN   8509/uwsgi</strike>
+<strike>tcp   0    0 127.0.0.1:9001   0.0.0.0:*   LISTEN   8507/uwsgi</strike> 
+$ 
 
 </pre>
 
-Make sure uWSGI starts at boot time:
+Here is how to start the uwsgi service:
+<pre>
+$ sudo systemctl start uwsgi.service
+</pre>
 
+<pre>
+$ ps axjf | grep wsgi
+   0:00 /usr/sbin/uwsgi --ini /etc/uwsgi.ini
+   0:00  \_ /usr/sbin/uwsgi --ini /etc/uwsgi.ini
+</pre>
+
+
+Make sure uWSGI starts at boot time:
 <pre>
 $ sudo systemctl enable uwsgi.service
 ln -s '/usr/lib/systemd/system/uwsgi.service' '/etc/systemd/system/multi-user.target.wants/uwsgi.service'
 $ 
 </pre>
+
+<p>
+<b>Note</b>: /etc/uwsgi/ directory containing emperor.ini and vassals/ is not part of the uwsgi package.
+</p>
 
 
 <h3>systemd Setup at Nectar</h3>
@@ -553,7 +633,7 @@ temp/$
 
 All works fine. It just times out with nginx.
 
-PS. Saved the output files to thne test directory test/2015.03.20
+PS. Saved the output files to the test directory test/2015.03.20
 
 3. Test via nginx:
    Make sure TEST does NOT exist.

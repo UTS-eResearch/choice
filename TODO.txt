@@ -1,7 +1,37 @@
 TODO List
 =========
 
+http://www.slideshare.net/jordixou/nginx-uwsgi-emperor-bottle
+
+Session Management
+------------------
+
+Session in s single bottlesession.py file 
+http://conceptpending.com/session-in-a-bottle/
+
+Has a session cookie generator, full example with template.
+https://github.com/linsomniac/bottlesession
+
+Basic Authentication in bottle.py
+http://fledglingpolymath.tumblr.com/post/39977900894/basic-authentication-in-bottle-py
+
+Really good collection of snippets for Flask but some apply to Bottle.
+http://flask.pocoo.org/snippets/   
+http://flask.pocoo.org/snippets/category/sessions/
+See e.g. http://pythonhosted.org/Frozen-Flask/
+
+
+Timeout Errors: April, May 2015
+-------------------------------
+
 uwsgi connect_timeout to set the gateway Timeout
+
+https://www.tekovic.com/fixing-timeout-between-nginx-and-php-fpm
+The error clearly states that connection timed out between Nginx and upstream
+server - in this case PHP-FPM, but that could be any FastCGI server - while
+reading response header. If you put 2 and 2 together, you just can't miss the
+fastcgi_read_timeout directive. 
+
 
 http://wiki.nginx.org/HttpUwsgiModule#uwsgi_read_timeout
     uwsgi_connect_timeout <-- sets timeout period for connection with uWSGI-server.
@@ -17,25 +47,13 @@ Current timeout Values are:
         uwsgi_read_timeout 60s;
         uwsgi_send_timeout 60s;
 
-
-January 2015
-------------
-
-I have some input files for testing. When this case was run for main effects
-only we got the following message:
-
-Time taken was 29.49 seconds. 
-
-Warning: choice sets 
-24 56 58 68 75 75 76 83 89 112 115 116 138 139 141 144 153 156 157 158 159 159 159 164 164 167 174 177 177 177 177 180 180 186 186 187 190 197 198 198 198 198 198 205 208 209 221 227 228 234 234 236 243 243 246 248 250 250 252 254 254 254 257 257 258 258 267 267 267 268 268 269 270 272 275 277 280 280 280 280 286 291 291 292 297 298 298 301 301 301 302 312 318 318 319 320 321 321 323 325 332 333 334 336 337 337 339 341 345 348 348 352 352 353 353 356 359 359 360 365 365 365 368 371 371 371 371 371 371 373 373 373 375 375 375 376 379 385 385 389 391 392 392 399 405 407 407 408 414 415 419 420 425 425 425 428 428 432 434 434 436 436 436 439 439 439 440 442 445 446 447 447 447 448 449 453 455 455 459 459 461 463 463 466 468 468 468 469 472 474 474 474 477 479 
-are duplicates.
-Number of choicesets: 354 
-Calculation is taking too long ... exiting.
-
-We're not concerned about the output at this stage, we'd just like to be able
-to run this sort of calculation on the website. Is there a way to allow the
-site to do calculations that take longer than 29.49 seconds? Say, 2 minutes?
-
+    # These timeouts don't help in preventing "504 Gateway Time-out"
+    #keepalive_timeout  65;
+    #keepalive_timeout 200;
+    #uwsgi_connect_timeout 200;
+    #uwsgi_send_timeout 200; 
+    # This timeout is the one required!
+    uwsgi_read_timeout 200; 
 
 
 September 2014
@@ -67,7 +85,6 @@ Temporarily I have made an /tmp/errors.txt that is writable by uwsgi
 Output file: out_cinv.dat ([Errno 2] No such file or directory: '/tmp/choice.Hhl7q8/out_cinv.dat')
 Output file: out_correln.dat ([Errno 2] No such file or directory: '/tmp/choice.Hhl7q8/out_correln.dat')
 [root@uts-choice tmp]# 
-
 
 
 
