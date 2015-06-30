@@ -38,12 +38,14 @@ Versions:
             Release to Nectar.
 2014.10.13: Added timeout.  
             Release to Nectar.
+2015.06.30: Timeout set for long running calculations.
+            Release to Nectar.
 
 
 Don't forget to update version number below!
 '''
 
-version = '2014.10.13'
+version = '2015.06.30'
 
 
 from bottle import route, run, template, request

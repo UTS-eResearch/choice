@@ -8,7 +8,6 @@
 #             changed $dest to separate login and directory vars.
 
 # Private key for access to Nectar
-key="/home/mlake/.ssh/keys/mikes_nectar"
 key="/home/mlake/.ssh/keys/uts-choice.pem"
 
 # Destination i.e. Nectar instance 
@@ -23,7 +22,7 @@ today=`date +%Y.%m.%d`
 tarball="choice_release_$today.tar"
 
 # List of files and directories to tarball
-files="choice.py choice_common.py process_choices.py static views" 
+files="choice.py choice_common.py process_choices.py static_choice views" 
 
 # Tar em !
 # Note we prefix the files/dirs with choice_$today.
