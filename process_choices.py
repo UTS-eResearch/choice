@@ -6,6 +6,9 @@ in a choice experiment. It reads input from text files and writes it output
 to text files. This way it can be easily invoked by other programs such as 
 a cgi script. 
 
+Authors: 
+Copyright 2013 Emily Bird, Mike Lake
+
 Usage: see the usage() function.
 
 Versions: 
