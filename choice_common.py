@@ -1,7 +1,21 @@
 '''
 Module that contains common functions for the choice experiments programs
-
 Author: Mike Lake
+Copyright 2013 Mike Lake
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 Versions: 
 Add a date here and a description of the changes to this file here. If the change
 results in a new release at Nectar then document that in the main file choice.py.
@@ -10,7 +24,6 @@ results in a new release at Nectar then document that in the main file choice.py
 2013.10.23: Added a main() so this program can run independently for debugging. 
 2013.10.29: Added sort() to output lists.
 2013.11.08: Added write_errors(). 
-
 '''
 
 import sys  # Only needed in main()
