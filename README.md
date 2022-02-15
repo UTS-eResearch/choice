@@ -1,34 +1,8 @@
-<html>
-<head>
-<title>Discrete Choice Experiments</title>
-<style type="text/css">
-    body {
-        bgcolor:'lightyellow';
-        counter-reset: h3counter;
-    }
-    pre {font-size:120%; margin-left:2ex;}
-    h1 { font-family:Arial,Helvetica,sans-serif; font-size:160%; font-weight:bold; }
-    h2 { font-family:Arial,Helvetica,sans-serif; font-size:120%; font-weight:bold; 
-        counter-reset: h3counter;
-    }
-    h3 { font-family:sans-serif; font-size:100%; font-weight:bold; text-indent:1.2ex; }
-    h3:before {
-        content: counter(h3counter) ".\0000a0\0000a0";
-        counter-increment: h3counter;
-    }
-    td { padding-left: 2ex; }
-    tt {font-size:120%; }
-</style>
-</head>
-<body>
-<a name="top" />
-<h1>Discrete Choice Experiments</h1>
+# Discrete Choice Experiments
 
-<p>Author: Mike Lake <br>
+Author: Mike Lake     
 Version of this Doc: 2015.03.23
-</p>
 
-<pre>
 <a href="#description"/>Description</a>
 <a href="#release"/>New Version Release at Nectar</a>
 <a href="#required"/>Software Required</a>
@@ -39,33 +13,24 @@ Version of this Doc: 2015.03.23
 <a href="#windows"/>Running under Microsoft Windows </a>
 <a href="#problems"/>Problems Encountered</a> 
 <a href="#refs"/>Programming References</a>
-</pre>
 
-<a name="description"/><h2>Description</h2>
+## Description
 
-<p>This describes the python scripts that run the web based 
+This describes the python scripts that run the web based 
 &quot;Discrete Choice Experiments&quot;. 
 This was written for for Deborah Street and Leonie Burgess. 
 Mike Lake wrote the choice.py and Emily Bird (from Maths) wrote the main functions in 
 process_choices.py.  
-</p>
 
-The web app is available at: 
-<a href="http://maths.science.uts.edu.au/maths/wiki/SPExpts">http://maths.science.uts.edu.au/maths/wiki/SPExpts</a>
+The web app is available at: http://maths.science.uts.edu.au/maths/wiki/SPExpts
 
-<p>Code is checked into GitHub at 
-<a href="https://codeine.research.uts.edu.au">https://codeine.research.uts.edu.au</a>.
+Code is checked into GitHub at https://codeine.research.uts.edu.au
 Login there with LDAP (i.e. staff no) and email password. 
-</p>
 
-<p><a href="#top">Top</a></p>
+## New Version Release at Nectar
 
-<a name="release"/><h2>New Version Release at Nectar</h2>
+This is how to do a new release at the Nectar hosted site.
 
-<p>This is how to do a new release at the Nectar hosted site.
-</p>
-
-<pre>
 1. Update the version number for the main program: choice.py               
    e.g. version = '2013.10.23'
 
@@ -100,85 +65,68 @@ Login there with LDAP (i.e. staff no) and email password.
  
 4. Check <a href="http://130.56.248.113">http://130.56.248.113/choice</a> 
    It should show the correct version number at the bottom left of the page. 
-</pre>
+
 
 If you just want an archive of the current repo then:
 
-<pre>
-$ git archive HEAD --prefix=choice/ --output ../choice.tar
-</pre>
+    $ git archive HEAD --prefix=choice/ --output ../choice.tar
 
-<p><a href="#top">Top</a></p>
+## Software Required for Choice Application
 
-<a name="required"/><h2>Software Required for Choice Application</h2>
+The following required software will be installed onto a "Fedora release 19" release.
 
-<p>The following required software will be installed onto a "Fedora release 19" release. </p>
+### Fedora Packages
 
-<h3>Fedora Packages</h3>
+First &quot;<tt>sudo yum update</tt>&quot; then install the following Fedora packages:
 
-<p>First &quot;<tt>sudo yum update</tt>&quot; then install the following Fedora packages: </p>
-
-<pre>
-Fedora Package          Provides
---------------          --------
-python                  Python 2.7.5 will already be installed.
-python-bottle           Provides micro web framework
-python-devel            Required for a pip install of subprocess32-3.2.6
-numpy                   Provides numerical array maths
-gcc                     Required for a pip install of subprocess32-3.2.6
-nginx                   Provides web server
-uwsgi                   Provides /usr/sbin/uwsgi and other files in /etc/ and /usr/share/doc/uwsgi
-uwsgi-plugin-python     Only provides /usr/lib64/uwsgi/python_plugin.so
-uwsgi-plugin-common     Pulled in as a dependeny of uwsgi-plugin-python 
-</pre>
+    Fedora Package          Provides
+    --------------          --------
+    python                  Python 2.7.5 will already be installed.
+    python-bottle           Provides micro web framework
+    python-devel            Required for a pip install of subprocess32-3.2.6
+    numpy                   Provides numerical array maths
+    gcc                     Required for a pip install of subprocess32-3.2.6
+    nginx                   Provides web server
+    uwsgi                   Provides /usr/sbin/uwsgi and other files in /etc/ and /usr/share/doc/uwsgi
+    uwsgi-plugin-python     Only provides /usr/lib64/uwsgi/python_plugin.so
+    uwsgi-plugin-common     Pulled in as a dependeny of uwsgi-plugin-python 
 
 Note: on my laptop I have installed:
-<pre>
-mod_wsgi &lt;-- this is for Apache
-    /etc/httpd/conf.modules.d/10-wsgi.conf
-    /usr/lib64/httpd/modules/mod_wsgi.so
-    /usr/share/doc/mod_wsgi
-    /usr/share/doc/mod_wsgi/LICENCE
-    /usr/share/doc/mod_wsgi/README
-</pre>
 
-<h3>Python Packages</h3>
+    mod_wsgi &lt;-- this is for Apache
+        /etc/httpd/conf.modules.d/10-wsgi.conf
+        /usr/lib64/httpd/modules/mod_wsgi.so
+        /usr/share/doc/mod_wsgi
+        /usr/share/doc/mod_wsgi/LICENCE
+        /usr/share/doc/mod_wsgi/README
 
-<p><b>sympy</b>: The python package called sympy is available from from http://sympy.org. 
+### Python Packages
+
+<b>sympy</b>: The python package called sympy is available from from http://sympy.org. 
 This provides symbolic maths for python. From that site download and install sympy-0.7.2.tar.gz <br>
 Note: Do not install sympy from the yum repos. That will install version 0.7.3
 which has a problem. Download 0.7.2 and install using setup.py as below.
-</p>
 
-<pre>
-sympy-sympy-0.7.2$ python setup.py build
-sympy-sympy-0.7.2$ sudo python setup.py install
-</pre>
+    sympy-sympy-0.7.2$ python setup.py build
+    sympy-sympy-0.7.2$ sudo python setup.py install
 
-<p><b>subprocess32-3.2.6</b>: &quot;subprocess&quot; is the native one for Python 2.7 but I have 
+<b>subprocess32-3.2.6</b>: &quot;subprocess&quot; is the native one for Python 2.7 but I have 
 installed &quot;subprocess32&quot; (via &quot;pip install&quot;) which is a
 backport from Python 3.0 which supports a timeout arg. 
-</p>
 
 Added via pip install: subprocess32-3.2.6
 
-<pre>
-$ python setup.py build
-$ sudo python setup.py install
-OK  
-</pre>
+    $ python setup.py build
+    $ sudo python setup.py install
+    OK  
 
-<p>Note: if you have not installed python-devel via yum then when you do the
+Note: if you have not installed python-devel via yum then when you do the
 "python setup.py build" step you will get an error "Python.h: No such file or directory".
 This package also needs gcc so ensure gcc yum package is installed.
-</p>
 
-<p><a href="#top">Top</a></p>
+## System Setup at Nectar
 
-
-<a name="setup"/><h2>System Setup at Nectar</h2>
-
-<h3>Nginx Setup at Nectar</h3>
+### Nginx Setup at Nectar
 
 <p>Mike made some global changes to nginx configuration files. 
 The changes are documented in these files. Search for MRL strings for changes. 
@@ -375,9 +323,6 @@ redirect it with a message
 <a href="http://130.56.248.113/choice/">http://130.56.248.113/choice/</a>
 </p>
 
- 
-<p><a href="#top">Top</a></p>
-
 <a name="programs"/><h2>Two Programs - choice.py and process_choices.py</h2>
 
 <p>This is the web form submission process.</p>
@@ -440,8 +385,6 @@ Results sent back to user
 Note 1: To turn off the javascript validation edit <tt>views/head.tpl</tt> and rename the 
 <tt>src="/static/validate.js"</tt> to something &quot;wrong&quot; so it won't load.
 </p>
-
-<p><a href="#top">Top</a></p>
 
 <a name="running"/><h2>Running the Application</h2>
 
@@ -520,8 +463,6 @@ Note: For Mikes laptop only make sure nginx is running and not apache:
   $ 
 </pre>
 
-<p><a href="#top">Top</a></p>
-
 <a name="tests"/><h2>Running Regression Tests</h2>
 
 <p>Run the script to show usage. For each test there should be no output if the test passes. </p>
@@ -530,8 +471,6 @@ Note: For Mikes laptop only make sure nginx is running and not apache:
 $ ./regression_test.sh
 $
 </pre>
-
-<p><a href="#top">Top</a></p>
 
 <a name="windows"/><h2>Running 'process_choices.py' under Microsoft Windows </h2>
 
@@ -552,8 +491,6 @@ C:\choice_emily&gt;
 </pre>
 
 <p>Note: Regression tests also can't be run under Windows.</p>
-
-<p><a href="#top">Top</a></p>
 
 <a name="problems"/><h2>Problems Encountered</h2> 
 
@@ -680,7 +617,6 @@ No nginx timeout !!!! Good
 See the TODO.txt for timeout information.
 </pre>
 
-
 <h3>Problem: need uwsgi-plugin-python</h3>
 
 <p>The problem was that the uwsgi process could not be started. </p>
@@ -770,8 +706,6 @@ Matrix([
 the tarball source package sympy-sympy-0.7.2.tar. The problem has now gone. 
 </p>
 
-<p><a href="#top">Top</a></p>
-
 <a name="refs"/><h2>Programming References to Python, uWSGI and nginx</h2>
 
 <pre>
@@ -797,11 +731,4 @@ the tarball source package sympy-sympy-0.7.2.tar. The problem has now gone.
 <a href="http://blog.richard.do/index.php/2013/04/setting-up-nginx-django-uwsgi-a-tutorial-that-actually-works/">setting-up-nginx-django-uwsgi-a-tutorial-that-actually-works</a>
 <a href="http://daeyunshin.com/2013/01/06/nginx-uwsgi-django-flask-deployment.html">nginx-uwsgi-django-flask-deployment</a>
 </pre>
-
-<p><a href="#top">Top</a></p>
-
-<p>&nbsp; <!-- creates blank line at end --> </p>
-
-</body>
-</html>
 
