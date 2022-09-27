@@ -22,11 +22,6 @@ This was written for for Deborah Street and Leonie Burgess.
 Mike Lake wrote the choice.py and Emily Bird (from Maths) wrote the main functions in 
 process_choices.py.  
 
-The web app is available at: http://maths.science.uts.edu.au/maths/wiki/SPExpts
-
-Code is checked into GitHub at https://codeine.research.uts.edu.au
-Login there with LDAP (i.e. staff no) and email password. 
-
 ## New Version Release at Nectar
 
 This is how to do a new release at the Nectar hosted site.
@@ -63,7 +58,7 @@ This is how to do a new release at the Nectar hosted site.
    $ sudo systemctl start nginx.service
    $ sudo systemctl restart uwsgi.service
  
-4. Check <a href="http://130.56.248.113">http://130.56.248.113/choice</a> 
+4. Check <a href="http://XXX.XXX.XXX.XXX">http://XXX.XXX.XXX.XXX/choice</a> 
    It should show the correct version number at the bottom left of the page. 
 
 
