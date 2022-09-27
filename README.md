@@ -3,16 +3,16 @@
 Author: Mike Lake     
 Version of this Doc: 2015.03.23
 
-<a href="#description"/>Description</a>
-<a href="#release"/>New Version Release at Nectar</a>
-<a href="#required"/>Software Required</a>
-<a href="#setup"/>System Setup at Nectar</a>
-<a href="#programs"/>Two Programs - choice.py and process_choices.py</a>
-<a href="#running"/>Running the Application</a>
-<a href="#tests"/>Running Regression Tests</a>
-<a href="#windows"/>Running under Microsoft Windows </a>
-<a href="#problems"/>Problems Encountered</a> 
-<a href="#refs"/>Programming References</a>
+<a href="#description"/>Description</a>    
+<a href="#release"/>New Version Release at Nectar</a>    
+<a href="#required"/>Software Required</a>    
+<a href="#setup"/>System Setup at Nectar</a>    
+<a href="#programs"/>Two Programs - choice.py and process_choices.py</a>    
+<a href="#running"/>Running the Application</a>    
+<a href="#tests"/>Running Regression Tests</a>    
+<a href="#windows"/>Running under Microsoft Windows</a>    
+<a href="#problems"/>Problems Encountered</a>     
+<a href="#refs"/>Programming References</a>    
 
 ## Description
 
@@ -26,41 +26,39 @@ process_choices.py.
 
 This is how to do a new release at the Nectar hosted site.
 
-1. Update the version number for the main program: choice.py               
+1. Update the version number for the main program: `choice.py`               
    e.g. version = '2013.10.23'
 
    The version numbers for the other programs remain as-is; 
-   i.e. choice_common.py and process_choices.py
+   i.e. `choice_common.py` and `process_choices.py`
 
 2. Checkin changes and push to github.
 
-2. Run the script ./release_to_nectar.sh 
+2. Run the script `./release_to_nectar.sh`      
    This will just make a tarball of the required files and scp the tarball to Nectar's 
-   /home/ec2-user/public_html/ 
-   It will then echo to the screen the command for logging into Nectar 
-   $ ./release_to_nectar.sh 
+   `/home/ec2-user/public_html/`. 
+   It will then echo to the screen the command for logging into Nectar.
 
-3. Login to Nectar  (this is done automatically by the above script)
-   $ ssh -i ~/.ssh/keys/mikes_nectar ec2-user@130.56.248.113
+3. Login to Nectar (this is done automatically by the above script)     
+   `$ ssh -i ~/.ssh/keys/mikes_nectar ec2-user@130.56.248.113`
   
-   Your home directory will be /home/ec2-user/
+   Your home directory will be `/home/ec2-user/`     
    The tarball will be in public_html/
-  
-   $ cd public_html 
-   $ tar xvf choice_release_2014.01.07.tar  &lt;-- This will create directory choice_2014.01.07/
-   $ rm choice_release_2014.01.07.tar
 
-   $ sudo systemctl stop nginx.service
+       $ cd public_html 
+       $ tar xvf choice_release_2014.01.07.tar  <== This will create directory choice_2014.01.07/
+       $ rm choice_release_2014.01.07.tar
+    
+       $ sudo systemctl stop nginx.service
 
-   $ rm choice                                &lt;-- this is a symlink to a release
-   $ ln -s choice_release_2014.01.07  choice  &lt;-- create new symlink
+       $ rm choice                               <== This is a symlink to a release.
+       $ ln -s choice_release_2014.01.07 choice  <== Create new symlink.
 
-   $ sudo systemctl start nginx.service
-   $ sudo systemctl restart uwsgi.service
+       $ sudo systemctl start nginx.service
+       $ sudo systemctl restart uwsgi.service
  
 4. Check <a href="http://XXX.XXX.XXX.XXX">http://XXX.XXX.XXX.XXX/choice</a> 
-   It should show the correct version number at the bottom left of the page. 
-
+It should show the correct version number at the bottom left of the page. 
 
 If you just want an archive of the current repo then:
 
@@ -123,63 +121,49 @@ This package also needs gcc so ensure gcc yum package is installed.
 
 ### Nginx Setup at Nectar
 
-<p>Mike made some global changes to nginx configuration files. 
+Mike made some global changes to nginx configuration files. 
 The changes are documented in these files. Search for MRL strings for changes. 
-</p>
 
-<pre>
-/etc/nginx/nginx.conf                   Changed document root, changed log format to a simpler string.
-/etc/nginx/conf.d/default.conf          Contains hello and choice apps. 
-/usr/share/nginx/html/index.html        Changed to just say "Nothing here." 
-/home/ec2-user/public_html              Created public_html directory. 
-</pre>
+    /etc/nginx/nginx.conf                   Changed document root, changed log format to a simpler string.
+    /etc/nginx/conf.d/default.conf          Contains hello and choice apps. 
+    /usr/share/nginx/html/index.html        Changed to just say "Nothing here." 
+    /home/ec2-user/public_html              Created public_html directory. 
 
 Changed permissions of /home/ec2-user/ so nginx can see the public_html dir. 
 
-<pre>
     from: drwx------ 
     to:   drwxr-xr-x                      
-</pre>
 
 Check nginx configuration:
 
-<pre>
-$ sudo /usr/sbin/nginx -t
-nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-nginx: configuration file /etc/nginx/nginx.conf test is successful
-$ 
-</pre>
+    $ sudo /usr/sbin/nginx -t
+    nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+    nginx: configuration file /etc/nginx/nginx.conf test is successful
+    $ 
 
 Change ownership and mode of choice python files:
 
-<pre>
-choice$ chown ec2-user:nginx *.py
-choice$ chmod ug+x *.py
-</pre>
+    choice$ chown ec2-user:nginx *.py
+    choice$ chmod ug+x *.py
 
 Make sure that nginx starts at boot time:
 
-<pre>
-$ sudo systemctl enable nginx.service
-ln -s '/usr/lib/systemd/system/nginx.service' '/etc/systemd/system/multi-user.target.wants/nginx.service'
-$ 
-</pre>
+    $ sudo systemctl enable nginx.service
+    ln -s '/usr/lib/systemd/system/nginx.service' '/etc/systemd/system/multi-user.target.wants/nginx.service'
+    $ 
 
-<pre>
-TODO deployment: nginx+uwsgi
+    TODO deployment: nginx+uwsgi
+    
+    TODO nohup python app.py &amp; - run in background with ability to logout from console.
+    
+    In /etc/nginx/nginx.conf
+    # TODO logs outside of http or server do ???
+    #access_log  /var/log/nginx/access.log  main;
+    #error_log  /var/log/nginx/error.log;
+    #error_log  /var/log/nginx/error.log  notice;
+    #error_log  /var/log/nginx/error.log  info;
 
-TODO nohup python app.py &amp; - run in background with ability to logout from console.
-
-In /etc/nginx/nginx.conf
-# TODO logs outside of http or server do ???
-#access_log  /var/log/nginx/access.log  main;
-#error_log  /var/log/nginx/error.log;
-#error_log  /var/log/nginx/error.log  notice;
-#error_log  /var/log/nginx/error.log  info;
-</pre>
-
-
-<h3>uWSGI Setup at Nectar</h3> 
+### uWSGI Setup at Nectar
 
 <p>Package uwsgi will contain /usr/sbin/uwsgi and some doc files. <br>
 <tt>$ rpmquery -ql uwsgi | grep -v doc</tt>
